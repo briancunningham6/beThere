@@ -1,0 +1,17 @@
+<section ng-controller="PlayersController">
+  <form class="form-horizontal" ng-submit="update()" ng-init="findOne()">
+    <div class="control-group">
+        <div class="controls">
+            <input type="text" ng-model="player.firstname" id="firstname" placeholder="First Name">
+        </div>
+        <div class="controls">
+            <input type="text" ng-model="player.lastname" id="lastname" placeholder="Last Name">
+        </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <input type="submit" class="btn">
+      </div>
+    </div>
+  </form>
+</section>
