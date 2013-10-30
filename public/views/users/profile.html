@@ -1,0 +1,34 @@
+<section ng-controller="UsersController">
+    <form class="form-horizontal" ng-submit="update()" ng-init="findOne();">
+        <div class="row page-header">
+            <div class="col-lg-6">
+                <div class="well">
+                    <form class="bs-example form-horizontal">
+                        <fieldset>
+                            <legend>Profile Details...</legend>
+                            <div class="form-group">
+                                <label for="location" class="col-lg-2 control-label">Time/Day</label>
+                                <div class="col-lg-5">
+                                    <input type="text" class="form-control" ng-model="user.firstname" id="firstname" placeholder="First name">
+                                </div>
+                                <div class="col-lg-5">
+                                    <input type="text" class="form-control" ng-model="user.lastname" id="lastname" placeholder="Last name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button class="btn btn-default">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-lg-offset-1">
+                Enter some stuff here
+            </div>
+        </div>
+    </form>
+</section>
