@@ -1,33 +1,47 @@
 <section ng-controller="UsersController">
-    <form class="form-horizontal" ng-submit="update()" ng-init="findOne();">
-        <div class="row page-header">
-            <div class="col-lg-6">
-                <div class="well">
-                    <form class="bs-example form-horizontal">
-                        <fieldset>
-                            <legend>Profile Details...</legend>
-                            <div class="form-group">
-                                <label for="location" class="col-lg-2 control-label">Time/Day</label>
-                                <div class="col-lg-5">
-                                    <input type="text" class="form-control" ng-model="user.firstname" id="firstname" placeholder="First name">
-                                </div>
-                                <div class="col-lg-5">
-                                    <input type="text" class="form-control" ng-model="user.lastname" id="lastname" placeholder="Last name">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <button class="btn btn-default">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-            <div class="col-lg-4 col-lg-offset-1">
-                Enter some stuff here
+    <form class="form-horizontal" ng-submit="update()" ng-init="findUser();">
+        <div class="row col-md-offset-3 col-lg-6 page-header">
+            <div class="well">
+                <fieldset>
+                    <legend>Update profile.....</legend>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-5">
+                            <input id="first" ng-model="user.firstname" type="text" name="firstname" placeholder="First name" class="col-lg-1 form-control"></div>
+                        <div class="col-lg-5">
+                            <input id="lastname" ng-model="user.lastname" type="text" name="lastname" placeholder="Last name" class="col-lg-1 form-control"></div>
+                        </div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Email</label>
+                        <div class="col-lg-7">
+                            <input id="email" disabled ng-model="user.email" type="text" name="email" placeholder="Email" class="col-lg-1 form-control">
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="submit" class="btn btn-primary">Change</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Phone number</label>
+                        <div class="col-lg-10"><input id="phonenumber" ng-model="user.phonenumber" type="text" name="phonenumber" placeholder="Phone number" class="col-lg-1 form-control"></div></div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Username</label>
+                        <div class="col-lg-10"><input id="username" ng-model="user.username" type="text" name="username" placeholder="Username" class="col-lg-1 form-control"></div></div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-7">
+                            <input id="password" disabled type="password" name="password" placeholder="Password" class="col-lg-1 form-control">
+                        </div>
+                        <div class="col-lg-1">
+                            <button type="submit" class="btn btn-primary">Change</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            <button type="submit" class="btn btn-primary">Save</button>&nbsp;
+                            or&nbsp;<a href="/" class="show-login">cancel</a>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
     </form>

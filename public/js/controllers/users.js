@@ -10,18 +10,22 @@ window.angular.module('ngff.controllers.users', [])
         });
       };
 
-     	$scope.findOne = function () {
-    	  Users.get({ eventId: req.user._doc._id}, function (user) {
-    	    $scope.user = user;
-    	  });
+     	$scope.findUser = function () {
+            debugger;
+    	    tempuser = $scope.global.currentUser();
+            Users.get({ userId: tempuser._id }, function (user) {
+                $scope.user = user;
+            });
     	}; 
 
     	$scope.update = function () {
-    	  var event = $scope.event;
             debugger;
-
-    	  event.$update(function () {
-    	    $location.path('users/' + event._id);
+    	  var user = $scope.user;
+    	  user.$update(function () {
+              Users.get({ userId: tempuser._id }, function (user) {
+                  $scope.user = user;
+              });
+    	    $location.path('users/profile');
     	  });
     	};
 
