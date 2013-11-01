@@ -44,6 +44,18 @@ exports.update = function(req, res){
     })
 }
 
+
+exports.receive = function(req, res){
+    console.log(req.query.phone);
+    console.log(req.query.smscenter);
+    console.log(req.query.text);
+    res.jsonp("Message Received!");
+}
+
+exports.sendverificationcode = function(){
+
+}
+
 exports.destroy = function(req, res){
     var message = req.message
     message.remove(function(err){
