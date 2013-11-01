@@ -30,7 +30,7 @@ exports.eventinstance = function(req, res, next, id){
 }
 
 exports.all = function(req, res){
- Eventinstance.find().populate('owner').populate('eventinstance').exec(function(err, eventinstance) {
+ Eventinstance.find({commissioner: req.user._id }).populate('owner').populate('eventinstance').exec(function(err, eventinstance) {
    if (err) {
      res.render('error', {status: 500});
    } else {      

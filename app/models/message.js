@@ -9,7 +9,8 @@ var MessageSchema = new Schema({
     event: {type: Schema.ObjectId, ref: 'Event'},
     eventinstance: {type: Schema.ObjectId, ref: 'Eventinstance'},
     type: String,
-    confirmed: {type:Boolean, default:false}
+    confirmed: {type:Boolean, default:false},
+    owner: {type: Schema.ObjectId, ref: 'User'}
 });
 
 mongoose.model('Message',MessageSchema);

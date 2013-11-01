@@ -5,7 +5,7 @@ var mongoose = require('mongoose')
 
 exports.create = function (req, res) {
     var message = new Message(req.body)
-    message.commissioner = req.user
+    message.owner = req.user
     message.save()
     res.jsonp(message)
 }
@@ -26,7 +26,7 @@ exports.message = function(req, res, next, id){
 }
 
 exports.all = function(req, res){
-    Message.find().populate('owner').populate('message').exec(function(err, messages) {
+    Message.find({owner: req.user._id}).populate('owner').populate('message').exec(function(err, messages) {
         if (err) {
             res.render('error', {status: 500});
         } else {

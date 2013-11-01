@@ -7,6 +7,6 @@ var EventinstanceSchema = new Schema({
     startdate: { type : Date, default: Date.now },
     currentattend:{type: Number, default:0},
     event:  {type: Schema.ObjectId, ref: 'Event'},
-    commissioner: {type: Schema.ObjectId, ref: 'User'}
+    owner: {type: Schema.ObjectId, ref: 'User'}
 }, { collection: 'eventinstances'});
 mongoose.model('Eventinstance', EventinstanceSchema);
