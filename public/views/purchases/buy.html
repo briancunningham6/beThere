@@ -1,0 +1,53 @@
+<section>
+    <form class="form-horizontal" action="/purchases/buy" method="POST" id="payment-form"  >
+        <div class="row col-md-offset-3 col-lg-6 page-header">
+            <div class="well">
+                <fieldset>
+                    <legend>Buy SMS credits.....</legend>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-3">
+                            <input id="first" type="text" required name="firstname" placeholder="First name" class="col-lg-1 form-control" value="Brian"></div>
+                        <div class="col-lg-7">
+                            <input id="lastname" type="text" required name="lastname" placeholder="Last name" class="col-lg-1 form-control" value="Cunningham"></div>
+                        </div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Card#</label>
+                        <div class="col-lg-7">
+                            <input id="cardnumber" type="text" placeholder="Card number" data-stripe="number" class="col-lg-1 form-control" value="4242424242424242">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Amount</label>
+                        <div class="col-lg-2">
+                            <input data-stripe="amount" type="number" name="phonenumber" placeholder="5" value="5" class="col-lg-1 form-control">
+                        </div>
+                        <label for="name" class="col-lg-2 control-label">Euros</label>
+                        <label for="name" class="col-lg-4 control-label">500 Credits</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-8 control-label">
+                            <span>Expiration (MM/YYYY)</span>
+                            <input type="text" size="2" data-stripe="exp-month" value="12" />
+                            <span> / </span>
+                            <input type="text" size="4" data-stripe="exp-year" value="2022" />
+                            <input type="hidden" size="4" data-stripe="userid" value="2345234523452345" />
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-8 control-label">
+                            <span>CVC</span>
+                            <input type="text" size="4" data-stripe="cvc" style="margin-left:55px;"/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10">
+                            <button type="submit" onclick="submitPaymentForm()" class="btn btn-small">Submit Payment</button>&nbsp;
+                            or&nbsp;<a href="/" class="show-login">cancel</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </form>
+</section>

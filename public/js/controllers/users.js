@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.users', [])
-  .controller('UsersController', ['$scope','$routeParams','$location','Global','Users','FantasyTeams',
-    function ($scope, $routeParams, $location, Global, Users, FantasyTeams) {
+  .controller('UsersController', ['$scope','$routeParams','$location','Global','Users','Teams',
+    function ($scope, $routeParams, $location, Global, Users, Teams) {
       $scope.global = Global;
 
       $scope.find = function (query) {
