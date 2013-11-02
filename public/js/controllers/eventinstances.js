@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.eventinstances', [])
-  .controller('EventinstancesController', ['$scope','$routeParams','$location','Global','FantasyTeams', 'Eventinstances',
-    function ($scope, $routeParams, $location, Global, FantasyTeams, Eventinstances) {
+  .controller('EventinstancesController', ['$scope','$routeParams','$location','Global','Teams', 'Eventinstances',
+    function ($scope, $routeParams, $location, Global, Teams, Eventinstances) {
       $scope.global = Global;
 
       $scope.create = function () {

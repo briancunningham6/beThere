@@ -1,11 +1,11 @@
 window.angular.module('ngff.controllers.messages', [])
-  .controller('MessagesController', ['$scope','$routeParams','$location','Global','Messages','FantasyTeams',
-    function ($scope, $routeParams, $location, Global, Messages, FantasyTeams) {
+  .controller('MessagesController', ['$scope','$routeParams','$location','Global','Messages','Teams',
+    function ($scope, $routeParams, $location, Global, Messages, Teams) {
       $scope.global = Global;
 
         $scope.populateTeams = function(query) {
-            FantasyTeams.query(query, function (fantasyteams) {
-                $scope.fantasyteams = fantasyteams;
+            FantasyTeams.query(query, function (teams) {
+                $scope.teams = teams;
             });
         };
 
@@ -39,7 +39,7 @@ window.angular.module('ngff.controllers.messages', [])
           minAttendance: this.message.minAttendance,
           time: this.message.time,
           notificationTime: this.message.notificationTime,
-          fantasyteam: this.message.fantasyteam
+          team: this.message.team
         });
 
         message.$save(function (response) {
