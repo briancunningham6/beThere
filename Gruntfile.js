@@ -11,6 +11,30 @@ module.exports = function(grunt) {
         // pkg will contain a reference to out pakage.json file use of which we will see later
         pkg: grunt.file.readJSON('package.json'),
 
+
+        "mocha-server": {
+            testServer: {
+                src: 'testing/server/api/users.js',
+                options: {
+                    ui: 'bdd',
+                    require: [
+                        'should'
+                    ]
+                }
+            }
+
+        },
+
+        testClient: {
+            src: 'testing/client/*.js',
+            options: {
+                ui: 'tdd',
+                require: [
+                    'should'
+                ]
+            }
+        },
+
         // configuration for the cssmin task
         // note that this syntax and options can found on npm page of any grunt plugin/task
         cssmin: {
@@ -35,6 +59,8 @@ module.exports = function(grunt) {
 
     // Load the plugin that provides the "cssmin" task.
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+    grunt.loadNpmTasks('grunt-server-mocha');
 
     // Default task(s).
     grunt.registerTask('default', ['cssmin']);
