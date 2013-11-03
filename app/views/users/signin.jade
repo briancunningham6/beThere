@@ -1,0 +1,27 @@
+extends auth
+
+block auth
+    form(action="/users/session", method="post").form-horizontal
+        div.row.col-lg-6.center-well.page-header
+          div.well
+            fieldset
+                legend Sign up.....
+                div.form-group
+                  label(for='name').col-lg-2.control-label Email
+                  div.col-lg-10
+                    input#email(type='text', name="email", placeholder='Email').col-lg-1.form-control
+
+
+                div.form-group
+                  label(for='name').col-lg-2.control-label Password
+                  div.col-lg-10
+                    input#password(type='password', name="password", placeholder='Password').col-lg-1.form-control
+
+                div.form-group
+                  div.col-lg-10
+                      button.btn.btn-primary(type='submit') Sign in
+                      &nbsp;
+                      | or&nbsp;
+                      a.show-login(href="/signin") login
+
+

@@ -1,0 +1,42 @@
+Server side tests(API).
+
+USERS
+    Register
+    Login
+    Profile
+    VerifyEmail
+    VerifyPhone
+
+EVENTS
+    Create
+    Edit
+    Delete
+        EventInstance
+            Create
+            Edit
+            Delete
+
+PLAYERS
+    Create
+    Edit
+    Delete
+
+TEAMS
+    Create
+    Edit
+    Delete
+
+MESSAGES
+    SendSMS
+    ReceiveSMS
+        SCHEDULING SERVICE
+            CheckForEventOnDate
+            HandleIncomingSMS
+
+Credit
+    SendSMS
+    BuyViaStripe
+| Credits only change on registration, SMS send and purchase
+
+PURCHASES
+    BuyViaStripe

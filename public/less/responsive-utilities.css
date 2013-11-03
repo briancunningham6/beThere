@@ -1,0 +1,5 @@
+NameError: .responsive-invisibility is undefined in /Users/user/dev/beThere/public/less/responsive-utilities.less on line 28, column 3:
+27 .visible-xs {
+28   .responsive-invisibility();
+29   @media (max-width: @screen-xs-max) {
+

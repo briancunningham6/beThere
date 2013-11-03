@@ -3,13 +3,6 @@ var mongoose = require('mongoose')
   , Purchase = mongoose.model('Purchase')
   , _ = require('underscore')
 
-exports.create = function (req, res) {
-  var purchase = new Purchase(req.body)
-  purchase.owner = req.user
-  purchase.event = req.body.event
-  purchase.save()
-  res.jsonp(purchase)
-}
 
 exports.show = function(req, res){
   res.jsonp(req.purchase);

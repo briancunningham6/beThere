@@ -7696,3 +7696,7 @@ legend {
 .form-horizontal .control-label {
     text-align: left;
 }
+.center-well{
+    float:none;
+    margin:0 auto;
+}

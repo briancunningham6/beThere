@@ -1,0 +1,11 @@
+<section ng-controller="TeamsController" ng-init="findOne()">
+  <h2>{{ team.name }}</h2>
+  <p><strong>Owner: </strong>{{ team.owner.name }}</p>
+  <p><strong>Event: </strong>{{ team.event.name }}</p>
+  <p><strong>Players:</strong></p>
+  <ul ng-repeat="player in team.players">
+    <li>{{ player }}</li>
+  </ul>  
+  <br>
+  <a href="#!/teams">View all teams</a>
+</section>

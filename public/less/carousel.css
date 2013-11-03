@@ -1,0 +1,5 @@
+NameError: .transition is undefined in /Users/user/dev/beThere/public/less/carousel.less on line 19, column 5:
+18     position: relative;
+19     .transition(.6s ease-in-out left);
+20 
+

@@ -1,0 +1,12 @@
+<section ng-controller="LocationsController" ng-init="find()">
+    <ul class="unstyled">
+        <h2>Events</h2>
+        <li data-ng-repeat="location in locations">
+            <a href="#!/locations/{{ location._id }}">{{location.name}}</a>
+            (<a href="#!/locations/{{ location._id }}/edit">Edit</a>)
+            (<a href="" ng-click="remove(location)" >Remove</a>)
+        </li>
+    </ul>
+    <br>
+    <a href="#!/locations/create">Create a new location</a>
+</section>

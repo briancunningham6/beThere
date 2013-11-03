@@ -1,0 +1,41 @@
+extends auth
+
+block auth
+    form(action="/users", method="post").form-horizontal
+        div.row.col-lg-6.center-well.page-header
+          div.well
+            fieldset
+                legend Sign up.....
+                div.form-group
+                  label(for='name').col-lg-2.control-label Name
+                  div.col-lg-4
+                    input#first(type='text', name="firstname", required, placeholder='First name', value=user.firstname).col-lg-1.form-control
+                  div.col-lg-6
+                    input#lastname(type='text', name="lastname", required, placeholder='Last name', value=user.lastname).col-lg-1.form-control
+
+                div.form-group
+                  label(for='name').col-lg-2.control-label Email
+                  div.col-lg-10
+                    input#email(type='email', required, name="email", placeholder='Email', value=user.email).col-lg-1.form-control
+
+                div.form-group
+                  label(for='name').col-lg-2.control-label Phone
+                  div.col-lg-4
+                    select#country(name='country').col-lg-3.form-control
+                      option(value='IE') Ireland
+                  label(for='name').col-lg-1.control-label +353
+                  div.col-lg-5
+                    input#phonenumber(ng-pattern="^(83|85|86|87083|085|086|087):" required type='text', name="phonenumber", placeholder='Phone number').col-lg-1.form-control
+
+                div.form-group
+                  label(for='password').col-lg-2.control-label Password
+                  div.col-lg-10
+                    input#password(ng-minlength="5", type='password', name="password", placeholder='Password').col-lg-1.form-control
+
+
+                div.form-group
+                  div.col-lg-10
+                      button.btn.btn-primary(type='submit') Sign up
+                      &nbsp;
+                      | or&nbsp;
+                      a.show-login(href="/signin") login
