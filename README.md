@@ -1,4 +1,6 @@
-mean-stripdown
+beThere - organize events via SMS
 ==============
 
-Stripdown of the mean.io stack for the ngFantasyFootball application
+This is the start of an App the enables people to orginize their event using a SMS based system.
+
+- Brian Cunningham 2013
