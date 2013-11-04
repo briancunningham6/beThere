@@ -8,6 +8,7 @@ var PurchaseSchema = new Schema({
     amount: {type: Number},
     paid: {type: Boolean},
     transactionid: {type: String},
+    status:{type: String},
     response: {type: String},
     owner: {type: Schema.ObjectId, ref: 'User'},
     created: { type : Date, default: Date.now },

@@ -185,15 +185,6 @@ exports.update = function(req, res){
     var user = req.user
     var temp = mongoose.model('User', User);
 
-    User.findOne({_id:user._id})
-        .exec(function (err, user) {
-            var credits = user.getCredits(function(result){
-                user.credits = result;
-                user.save();
-            });
-
-    });
-
     user.firstname = req.body.firstname;
     user.lastname = req.body.lastname;
     user.emailname = req.body.emailname;

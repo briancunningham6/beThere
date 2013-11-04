@@ -56,6 +56,37 @@ exports.sendverificationcode = function(){
 
 }
 
+
+exports.sendSMS = function(req, res){
+    var messageid = req.messageid;
+    var ownerid = req.ownerid;
+
+    Message.findOne({_id:messageid})
+        .exec(function(err,message){
+            if (err) {
+                res.render('Could not find message!', {status: 500});
+            } else {
+                    //Update message
+                    result.status = 'Sent';
+                    result.sentdate = new Date();
+                    result.save(function(err,result){
+                        //TODO: Message sent - if sent by a user create a credit record
+                        if(ownerid){
+                            decrement = new Credit({
+                                owner: ownerid,
+                                value: -1,
+                                reason: "Sent SMS"
+                            });
+                            decrement.save(function(err){
+                                res.jsonp("SMS Sent");
+                            })
+                        }
+                        res.render('Some strange error!', {status: 500});
+                    })
+        }
+    })
+}
+
 exports.destroy = function(req, res){
     var message = req.message
     message.remove(function(err){

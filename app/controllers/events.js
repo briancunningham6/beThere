@@ -117,11 +117,18 @@ exports.event = function(req, res, next, id){
     });
 }
 
-exports.all = function(req, res){
+exports.all = function(req, res, next){
  Event.find().populate('owner').populate('event').exec(function(err, events) {
    if (err) {
      res.render('error', {status: 500});
-   } else {      
+   } else {
+       //Find eventInstances for each event and add it to the "events" object
+       events.forEach(function(event){
+           Eventinstance.find({'event':event._id})
+               .exec(function(err,eventinstances){
+                   event['eventinstances'] = eventinstances;
+               })
+       });
        res.jsonp(events);
    }
  });

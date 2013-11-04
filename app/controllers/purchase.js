@@ -1,6 +1,8 @@
 var mongoose = require('mongoose')
   , async = require('async')
   , Purchase = mongoose.model('Purchase')
+  , Credit = mongoose.model('Credit')
+  , User = mongoose.model('User')
   , _ = require('underscore')
 
 
@@ -57,28 +59,63 @@ exports.buy = function(req, res){
             res.jsonp('payment did not work')
         }
         else{
-            res.jsonp('payment worked')
+            //Create purchase with the userid here!
+            response = req.body;
+            purchase = new Purchase({
+                'reason': 'Credit purchase',
+                'transactionid': charge.id,
+                'amount': charge.amount,
+                'status': 'pending',
+                'response': charge,
+                'owner':req.user._id
+            })
+            purchase.save(function(err){
+                //Purchase initiated waiting for response from Stripe
+                return res.redirect('/')
+            })
+
         }
     });
 
 }
 
-exports.confirm = function(req, res){
+exports.confirm = function(req, next){
     //This is the webhook for stripe
     //Check if the purchase has been confirmed
     //If so create purchase
 
     response = req.body;
-    purchase = new Purchase({
-        'reason': 'Credit purchase',
-        'transactionid': response.id,
-        'amount': response.data.amount,
-        'paid': response.data.paid,
-        'response': response
-    })
-    purchase.save();
-    res.jsonp('payment confirmed')
-    //Create credit values.
+
+    Purchase.findOne({'transactionid':response.data.object.id})
+        .exec(function(err, next, purchase){
+            if (err) return next(err)
+            if (!purchase) return "hello stripe!"
+
+            purchase.status = 'confirmed';
+            purchase.save(function(err,purchase){
+                //Create credit values.
+                var credit = new Credit({
+                    'reason': 'Credit purchase',
+                    'amount': (purchase.amount / 5),
+                    'owner': purchase.owner
+                });
+                //Recalculate users credits
+                credit.save(function(err,credit){
+                    User.findOne({_id:credit.owner})
+                        .exec(function (err, user) {
+                            var credits = user.getCredits(function(result){
+                                user.credits = result;
+                                user.save(function(err){
+                                    return "Purchase complete"
+                                });
+                            });
+                        });
+                });
+                return "fail"
+            })
+            return "fail"
+        })
+    return "fail"
 }
 
 exports.destroy = function(req, res){
