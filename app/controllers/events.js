@@ -1,8 +1,8 @@
 var mongoose = require('mongoose')
   , async = require('async')
-  , Event = mongoose.model('Event')
-  , Eventinstance = mongoose.model('Eventinstance')
   , Message = mongoose.model('Message')
+  , Eventinstance = mongoose.model('Eventinstance')
+  , Event = mongoose.model('Event')
   , Player = mongoose.model('Player')
   , _ = require('underscore')
 
@@ -66,6 +66,9 @@ createRecurringInstances = function(event){
                         'owner':event.commissioner
                     });
                     message.save();
+                    testevent.eventinstances.push(eventinstance);
+                    testevent.save();
+
                 }
             });
         });
@@ -110,7 +113,6 @@ exports.event = function(req, res, next, id){
         if (err) {
             res.render('error', {status: 500});
         } else {
-            debugger;
             req.event = event
             next()
         }
@@ -118,21 +120,15 @@ exports.event = function(req, res, next, id){
 }
 
 exports.all = function(req, res, next){
- Event.find().populate('owner').populate('event').exec(function(err, events) {
+ Event.find().populate('owner').populate('eventinstances').exec(function(err, events) {
    if (err) {
      res.render('error', {status: 500});
    } else {
-       //Find eventInstances for each event and add it to the "events" object
-       events.forEach(function(event){
-           Eventinstance.find({'event':event._id})
-               .exec(function(err,eventinstances){
-                   event['eventinstances'] = eventinstances;
-               })
-       });
        res.jsonp(events);
    }
  });
-}
+};
+
 
 exports.update = function(req, res){
   var event = req.event
@@ -146,7 +142,7 @@ exports.update = function(req, res){
           res.jsonp(1);
       }
   })
-}
+};
 
 exports.destroy = function(req, res){
     var Eventinstance = mongoose.model('Eventinstance');

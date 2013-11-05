@@ -8,10 +8,10 @@ window.angular.module('ngff.controllers.header', [])
 			    "title": "Events",
 			    "link": "events"
 			  },
-                {
-                    "title": "Event instances",
-                    "link": "eventinstances"
-                },
+//                {
+//                    "title": "Event instances",
+//                    "link": "eventinstances"
+//                },
 			  {
 			    "title": "Teams",
 			    "link": "teams"

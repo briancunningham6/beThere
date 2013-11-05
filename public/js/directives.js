@@ -1,4 +1,13 @@
 window.angular.module('ngff.directives', ['ngff.services'])
+    .directive('dateInputFormat', function ($window) {
+        return {
+            require:'^ngModel',
+            restrict:'A',
+            link:function (scope, elm, attrs, ctrl) {
+
+            }
+        };
+    })
     .directive('jqstartpicker', function () {
         return {
             restrict: 'A',
@@ -27,6 +36,7 @@ window.angular.module('ngff.directives', ['ngff.services'])
                     }
                 });
             }
+
         };
     })
     .directive('jqinstancepicker', function () {

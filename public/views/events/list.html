@@ -1,10 +1,9 @@
-<section ng-controller="EventsController" ng-init="find()">
+<section>
     <div class="row">
-        <div class="col-lg-6">
-            <div class="page-header">
-                <h1 id="tables">Events<a href="/#!/events/create" class="btn btn-success pull-right">Create</a></h1>
-            </div>
-
+        <div class="page-header">
+            <h1 id="tables">Events<a href="/#!/events/create" class="btn btn-success pull-right">Create new Event</a></h1>
+        </div>
+        <div class="col-lg-6" ng-controller="EventsController" ng-init="find()">
             <div class="bs-example table-responsive">
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
@@ -28,12 +27,54 @@
                         <td>
                             <!--Create a select list for EventInstances here-->
                             <div class="col-lg-2">
-                                <select ng-model="event.eventinstance" ng-init="" class="form-control" ng-options="item.startdate as item.startdate for item in events.eventinstances"></select>
+                                <select style="width:200px" ng-model="event.eventinstances" class="form-control" ng-options="c.startdate | date:'longDate' for c in events[$index].eventinstances"></select>
                             </div>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+            </div><!-- /example -->
+        </div>
+        <div class="col-lg-6" ng-controller="EventinstancesController" ng-init="find()">
+            <div class="bs-example table-responsive">
+                <tabset>
+                    <tab heading="Upcoming Dates">
+
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Event instance date</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-ng-repeat="eventinstance in eventinstances">
+                                <td>{{$index + 1}}</td>
+                                <td><a href="#!/eventinstances/{{ eventinstance._id }}">{{eventinstance.startdate | date:'fullDate'}}</a></td>
+                                <td>
+                                    (<a href="#!/eventinstances/{{ eventinstance._id }}/edit">Edit</a>)
+                                    (<a href="" ng-click="remove(eventinstance)" >Remove</a>)
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </tab>
+                    <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
+                        {{tab.content}}
+                    </tab>
+                    <tab select="alertMe()">
+                        <tab-heading>
+                            <i class="icon-bell"></i> Messages
+                        </tab-heading>
+                    </tab>
+                    <tab select="alertMe()">
+                        <tab-heading>
+                            <i class="icon-bell"></i> Post match stuff
+                        </tab-heading>
+                    </tab>
+                </tabset>
             </div><!-- /example -->
         </div>
     </div>

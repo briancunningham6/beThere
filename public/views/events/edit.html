@@ -32,7 +32,7 @@
                             <div class="form-group">
                                 <label for="location" class="col-lg-2 control-label">Start/End</label>
                                 <div class="col-lg-5">
-                                    <input type="text" required class="form-control" ng-model="event.startdate" jqstartpicker placeholder="Start date"/>
+                                    <input type="text" required class="form-control" ng-model="event.startdate" value="{{event.startdate | date:'longDate'}}" ui-date ui-date-format jqstartpicker placeholder="Start date"/>
                                 </div>
                                 <div class="col-lg-5" ng-show="event.recurring > 0">
                                     <input type="text" class="form-control" ng-model="event.enddate" jqendpicker placeholder="End date" />

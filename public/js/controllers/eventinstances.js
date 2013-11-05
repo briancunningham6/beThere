@@ -4,7 +4,6 @@ window.angular.module('ngff.controllers.eventinstances', [])
       $scope.global = Global;
 
       $scope.create = function () {
-          debugger;
         var eventinstance = new Eventinstances({
             startdate: new Date(this.eventinstance.startdate)
         });

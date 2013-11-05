@@ -114,14 +114,18 @@ window.angular.module('ngff.controllers.events', [])
 
       $scope.find = function (query) {
         Events.query(query, function (events) {
+          //events.startdate = new Date(events.startdate);
           $scope.events = events;
+
 
         });
       };
 
      	$scope.findOne = function () {
     	  Events.get({ eventId: $routeParams.eventId }, function (event) {
-    	    $scope.event = event;
+              event.startdate = new Date(event.startdate);
+              event.enddate = new Date(event.enddate);
+              $scope.event = event;
     	  });
     	}; 
 
