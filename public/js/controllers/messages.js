@@ -1,9 +1,20 @@
 window.angular.module('ngff.controllers.messages', [])
-  .controller('MessagesController', ['$scope','$routeParams','$location','Global','Messages','Teams',
-    function ($scope, $routeParams, $location, Global, Messages, Teams) {
+  .controller('MessagesController', ['$scope','$routeParams','$location','Global','Messages','Teams','SharedEvent',
+    function ($scope, $routeParams, $location, Global, Messages, Teams, SharedEvent) {
       $scope.global = Global;
 
-        $scope.populateTeams = function(query) {
+        $scope.selectAction = function(value) {
+            //Call the shared event service
+            SharedEvent.prepForBroadcast(value);
+        };
+
+        $scope.$on('handleBroadcast', function(){
+            debugger;
+            $scope.selectedEvent = SharedEvent.selectedEvent;
+        })
+
+
+    $scope.populateTeams = function(query) {
             FantasyTeams.query(query, function (teams) {
                 $scope.teams = teams;
             });

@@ -1,8 +1,9 @@
 var mongoose = require('mongoose')
   , async = require('async')
-  , Message = mongoose.model('Message')
   , Eventinstance = mongoose.model('Eventinstance')
   , Event = mongoose.model('Event')
+
+    , Message = mongoose.model('Message')
   , Player = mongoose.model('Player')
   , _ = require('underscore')
 
@@ -41,6 +42,7 @@ createRecurringInstances = function(event){
         newDate = new Date(controlvarfordate);
         eventinstance = new Eventinstance(
             {
+
                 'currentattend':'0',
                 'owner':event.owner,
                 'startdate':newDate,
@@ -50,9 +52,9 @@ createRecurringInstances = function(event){
         eventinstance.save(function(err, eventinstance){
             var eventinstanceId = eventinstance._id;
             // Now create messages for each instance
-            Event.findOne({ _id: event._id }).populate('team').exec(function (err, testevent){
+            Event.findOne({ _id: event._id }).populate('team').exec(function (err, event){
 
-                var playerlist = JSON.parse(testevent.team.playerlist);
+                var playerlist = JSON.parse(event.team.playerlist);
                 var length = playerlist.length,
                     player = null;
                 for (i=0;i<length;i++){
@@ -63,11 +65,15 @@ createRecurringInstances = function(event){
                         'player': playerlist[i]._id,
                         'event': event.id,
                         'eventinstance': eventinstanceId,
-                        'owner':event.commissioner
+                        'owner':event.owner
                     });
-                    message.save();
-                    testevent.eventinstances.push(eventinstance);
-                    testevent.save();
+                    message.save()
+                    //Push message onto the eventinstance
+                    //eventinstance.messages.push(message);
+                    //eventinstance.save();
+
+                    event.eventinstances.push(eventinstance);
+                    event.save();
 
                 }
             });
@@ -120,10 +126,19 @@ exports.event = function(req, res, next, id){
 }
 
 exports.all = function(req, res, next){
- Event.find().populate('owner').populate('eventinstances').exec(function(err, events) {
+//    var opts = [
+//        { path: 'owner'}
+//       ,{ path: 'eventinstances'},
+//       ,{ path: 'eventinstances.messages', model: 'Eventinstance' }
+//    ]
+
+
+
+ Event.find().populate('owner').populate('eventinstances').populate({path:'eventinstances.messages', model:Eventinstance}).exec(function(err, events) {
    if (err) {
      res.render('error', {status: 500});
    } else {
+
        res.jsonp(events);
    }
  });

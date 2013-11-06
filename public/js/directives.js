@@ -15,6 +15,7 @@ window.angular.module('ngff.directives', ['ngff.services'])
             link: function (scope, element, attrs, ngModelCtrl) {
                 element.datepicker({
                     dateFormat: 'DD, d  MM, yy',
+                    setDate: new Date(),
                     onSelect: function (date) {
                         scope.event.startdate = date;
                         scope.$apply();

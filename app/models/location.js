@@ -4,7 +4,9 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
 
 var LocationSchema = new Schema({
-	name: {type: String}
+	name: {type: String},
+    countrycode: {type: String},
+    smsurl:{type: String}
 });
 
 LocationSchema.statics = {

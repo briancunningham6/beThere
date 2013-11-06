@@ -1,7 +1,17 @@
 window.angular.module('ngff.controllers.events', [])
-  .controller('EventsController', ['$scope','$routeParams','$location','Global','Events','Teams',
-    function ($scope, $routeParams, $location, Global, Events, Teams) {
+  .controller('EventsController', ['$scope','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent',
+    function ($scope, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent) {
       $scope.global = Global;
+
+        $scope.selectAction = function(value) {
+            //Call the shared event service
+            SharedEvent.prepForBroadcast(value);
+        };
+
+        $scope.$on('handleBroadcast', function(){
+            debugger;
+            $scope.selectedEvent = SharedEvent.selectedEvent;
+        })
 
         $scope.populateTeams = function(query) {
             Teams.query(query, function (teams) {
@@ -101,7 +111,7 @@ window.angular.module('ngff.controllers.events', [])
           startdate: new Date(this.event.startdate),
           enddate: new Date(this.event.enddate),
           recurring: this.event.recurring,
-          notificationTime: this.event.notificationtime,
+          notificationtime: this.event.notificationtime,
           reminderstime: this.event.reminderstime,
           team: this.event.team
         });
@@ -116,12 +126,14 @@ window.angular.module('ngff.controllers.events', [])
         Events.query(query, function (events) {
           //events.startdate = new Date(events.startdate);
           $scope.events = events;
-
+            //$rootScope.selectedEvent = {'data':'52792bc5da66d8360e000006'};
+            //$scope.selectedEvent =  SharedEvent.selectedEvent;
+            debugger;
 
         });
       };
 
-     	$scope.findOne = function () {
+     	 $scope.findOne = function () {
     	  Events.get({ eventId: $routeParams.eventId }, function (event) {
               event.startdate = new Date(event.startdate);
               event.enddate = new Date(event.enddate);
@@ -131,7 +143,6 @@ window.angular.module('ngff.controllers.events', [])
 
     	$scope.update = function () {
     	  var event = $scope.event;
-
     	  event.$update(function () {
     	    $location.path('events/' + event._id);
     	  });
@@ -145,5 +156,4 @@ window.angular.module('ngff.controllers.events', [])
     	    }
     	  }
     	};
-
     }]);

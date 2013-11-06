@@ -4,10 +4,11 @@ window.angular.module('ngff.services.eventinstances', [])
       return $resource(
         'eventinstances/:eventinstanceId',
         {
-          eventinstancesId:'@_id'
+          eventinstanceId:'@_id'
         },
         {
           update: {method: 'PUT'}
         }
       )
-    }]);
+    }
+    ]);

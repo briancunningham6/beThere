@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.purchases', [])
-  .controller('PurchasesController', ['$scope','$routeParams','$location','Global','Events','Purchases','Players','myPlayers',
-    function($scope, $routeParams, $location, Global, Events, Purchases,Players,myPlayers) {
+  .controller('PurchasesController', ['$scope','$routeParams','$location','Global','Events','Purchases','Players',
+    function($scope, $routeParams, $location, Global, Events, Purchases,Players) {
       $scope.global = Global;
 
 

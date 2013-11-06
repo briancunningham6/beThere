@@ -29,7 +29,7 @@ var UserSchema = new Schema({
   username: String,
   provider: String,
   phonenumber: Number,
-  country: String,
+  location: {type: Schema.ObjectId, ref: 'Location'},
   emailverificationcode: {type:String, default:'verifyme'},
   phoneverificationcode: {type:Number, default:4321 },
   emailverified: {type:Boolean, default:false},

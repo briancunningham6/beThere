@@ -1,5 +1,5 @@
 window.angular.module('ngff.services.events', [])
-  .factory('Events', ['$resource',
+    .factory('Events', ['$resource',
     function($resource){
       return $resource(
         'events/:eventId',

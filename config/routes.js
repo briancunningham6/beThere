@@ -45,6 +45,7 @@ module.exports = function (app, passport, auth) {
     // eventinstance routes
     var eventinstances = require('../app/controllers/eventinstances')
     app.get('/eventinstances',auth.requiresLogin, eventinstances.all)
+    //app.get('/eventinstances/event/:eventId',auth.requiresLogin, eventinstances.eventdates)
     app.post('/eventinstances', auth.requiresLogin, eventinstances.create)
     app.get('/eventinstances/:eventinstanceId', eventinstances.show)
     app.put('/eventinstances/:eventinstanceId', auth.requiresLogin, eventinstances.update)

@@ -1,6 +1,4 @@
 window.angular.module('ngff.services.players', [])
-
-
     .factory('myPlayers', function($http) {
         return {
             getPlayers: function() {
