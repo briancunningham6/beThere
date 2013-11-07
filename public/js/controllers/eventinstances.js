@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.eventinstances', [])
-  .controller('EventinstancesController', ['$scope','$rootScope','$routeParams','$location','Global','Teams', 'Eventinstances','SharedEvent',
-    function ($scope, $rootScope, $routeParams, $location, Global, Teams, Eventinstances, SharedEvent) {
+  .controller('EventinstancesController', ['$scope','$rootScope','$routeParams','$location','Global','Teams', 'Eventinstances','SharedEvent','SharedEventinstant',
+    function ($scope, $rootScope, $routeParams, $location, Global, Teams, Eventinstances, SharedEvent,SharedEventinstant) {
       $scope.global = Global;
 
         $scope.selectedEvent = "";
@@ -41,7 +41,6 @@ window.angular.module('ngff.controllers.eventinstances', [])
       $scope.find = function (query) {
         Eventinstances.query(query, function (eventinstances) {
           $scope.eventinstances = eventinstances;
-          $rootScope.selectedEvent = {'data':'52792bc5da66d8360e000006'};
 
 
         });
@@ -55,9 +54,7 @@ window.angular.module('ngff.controllers.eventinstances', [])
     	}; 
 
     	$scope.update = function () {
-            debugger;
     	  var eventinstance = $scope.eventinstance;
-
     	  eventinstance.$update(function () {
     	    $location.path('eventinstances/' + eventinstance._id);
     	  });

@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.messages', [])
-  .controller('MessagesController', ['$scope','$routeParams','$location','Global','Messages','Teams','SharedEvent',
-    function ($scope, $routeParams, $location, Global, Messages, Teams, SharedEvent) {
+  .controller('MessagesController', ['$scope','$routeParams','$location','Global','Messages','Teams','SharedEvent','SharedEventinstant',
+    function ($scope, $routeParams, $location, Global, Messages, Teams, SharedEvent, SharedEventinstant) {
       $scope.global = Global;
 
         $scope.selectAction = function(value) {

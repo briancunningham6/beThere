@@ -16,12 +16,6 @@ var express = require('express')
 var https = require('https');
 var http = require('http');
 
-// This line is from the Node.js HTTPS documentation.
-var options = {
-    key: fs.readFileSync('certs/dev/key.pem'),
-    cert: fs.readFileSync('certs/dev/cert.pem')
-};
-
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
@@ -63,9 +57,9 @@ require('./config/routes')(app, passport, auth)
 http.createServer(app).listen(3000);
 console.log('Express app started on port 3000')
 
-//// Create an HTTPS service identical to the HTTP service.
-//https.createServer(options, app).listen(8000);
-//console.log('Express app (SSL)started on port 8000')
+// Create an HTTPS service identical to the HTTP service.
+https.createServer(config.certs, app).listen(8000);
+console.log('Express app (SSL)started on port 8000')
 
 
 //Initializing logger 

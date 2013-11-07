@@ -62,6 +62,8 @@ exports.session = function (req, res) {
 exports.create = function (req, res) {
   var user = new User(req.body)
   user.provider = 'local'
+  //Set initial credits here
+  user.credits = 20;
   user.save(function (err) {
     if (err) {
       return res.render('users/signup', { errors: err.errors, user: user })
@@ -74,10 +76,10 @@ exports.create = function (req, res) {
     var Credit = mongoose.model('Credit');
     var credit = new Credit({
         'reason': 'Initial credits',
-        'amount': 50,
+        'amount': 20,
         'owner': user._id
     });
-    credit.save(function(){});
+    credit.save();
 
     //Create an initial Team
     var Player = mongoose.model('Player');
@@ -190,6 +192,7 @@ exports.update = function(req, res){
     user.emailname = req.body.emailname;
     user.phonenumber = req.body.phonenumber;
     user.username = req.body.username;
+    user.phoneverified = req.body.phoneverified;
 
     //user = _.extend(user, req.body)
 
@@ -214,4 +217,32 @@ exports.user = function (req, res, next, id) {
       req.profile = user
       next()
     })
+}
+
+
+/**
+ * Resetpassword
+ */
+
+exports.passwordreset = function (req, res) {
+    res.render('users/passwordreset')
+}
+
+/**
+ * Resetpassword
+ */
+
+exports.passwordresetcofirm = function (req, res) {
+    //Find user, renerate password reset link, send mail
+    //http://localhost:3000/passwordresetcofirm?email=brianc@kseudo.com&hash=2345324523452345432344
+    res.render('/')
+}
+
+/**
+ * Resetpasswordchange
+ */
+
+exports.passwordresetchange = function (req, res) {
+    //Find user, renerate password reset link, send mail
+    res.render('/')
 }

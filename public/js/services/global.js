@@ -1,12 +1,10 @@
 window.angular.module('ngff.services.global', [])
     .factory('SharedEvent', function($rootScope){
-        debugger;
         sharedEvent = {};
 
-        sharedEvent.selectedEvent =  '52792bc5da66d8360e000006';
+        sharedEvent.selectedEvent =  '';
 
         sharedEvent.prepForBroadcast = function(val){
-            debugger;
             this.selectedEvent = val;
             this.broadcastItem();
         }
@@ -14,6 +12,20 @@ window.angular.module('ngff.services.global', [])
             $rootScope.$broadcast('handleBroadcast');
         }
         return sharedEvent;
+    })
+    .factory('SharedEventinstant', function($rootScope){
+        sharedEventinstant = {};
+
+        sharedEventinstant.selectedEventinstance =  '';
+
+        sharedEventinstant.prepForBroadcast = function(val){
+            this.selectedEventinstance = val;
+            this.broadcastItem();
+        }
+        sharedEventinstant.broadcastItem = function(){
+            $rootScope.$broadcast('handleBroadcast');
+        }
+        return sharedEventinstant;
     })
   .factory('Global', function(){
   	var current_user = window.user;

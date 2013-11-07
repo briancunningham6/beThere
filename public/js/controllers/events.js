@@ -1,15 +1,15 @@
 window.angular.module('ngff.controllers.events', [])
-  .controller('EventsController', ['$scope','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent',
-    function ($scope, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent) {
+  .controller('EventsController', ['$scope','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent','SharedEventinstant',
+    function ($scope, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent, SharedEventinstant) {
       $scope.global = Global;
 
         $scope.selectAction = function(value) {
             //Call the shared event service
+            debugger;
             SharedEvent.prepForBroadcast(value);
         };
 
         $scope.$on('handleBroadcast', function(){
-            debugger;
             $scope.selectedEvent = SharedEvent.selectedEvent;
         })
 
@@ -126,9 +126,6 @@ window.angular.module('ngff.controllers.events', [])
         Events.query(query, function (events) {
           //events.startdate = new Date(events.startdate);
           $scope.events = events;
-            //$rootScope.selectedEvent = {'data':'52792bc5da66d8360e000006'};
-            //$scope.selectedEvent =  SharedEvent.selectedEvent;
-            debugger;
 
         });
       };

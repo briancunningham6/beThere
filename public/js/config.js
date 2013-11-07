@@ -100,15 +100,15 @@ window.app.config(['$routeProvider', function($routeProvider) {
     {
         templateUrl: 'views/players/view.html'
     })
-    .when('/users/:userId',
+    .when('/users/changephone',
     {
-        templateUrl: 'views/users/profile.html'
+        templateUrl: 'views/users/changephone.html'
     })
     .when('/users/showphone',
     {
         templateUrl: 'views/users/showphone.html'
     })
-    .when('/users/profile',
+    .when('/users/:userId',
     {
         templateUrl: 'views/users/profile.html'
     })

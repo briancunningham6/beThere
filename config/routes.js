@@ -15,6 +15,7 @@ module.exports = function (app, passport, auth) {
     app.get('/signin', users.signin)
     app.get('/signup', users.signup)
     app.get('/signout', users.signout)
+    app.get('/passwordreset', users.passwordreset)
     app.post('/users', users.create)
     app.get('/users/verifyemail', users.verifyemail)
     app.post('/users/verifyphone', users.verifyphone)
@@ -71,6 +72,7 @@ module.exports = function (app, passport, auth) {
     app.put('/messages/:messageId', auth.requiresLogin, messages.update)
     app.del('/messages/:messageId', auth.requiresLogin, messages.destroy)
 
+    app.post('/messages/sendSMS', messages.sendSMS)
     app.param('messageId', messages.message)
 
 

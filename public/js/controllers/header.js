@@ -1,7 +1,13 @@
 window.angular.module('ngff.controllers.header', [])
-	.controller('HeaderController', ['$scope', 'Global',
-		function ($scope, Global) {
+	.controller('HeaderController', ['$scope','Global','$location',
+		function ($scope, Global, $location) {
 			$scope.global = Global;
+
+                $scope.isActive = function (viewLocation) {
+                    //Sets the navigation bar buttons
+                    var temp = $location.$$path;
+                    return viewLocation === temp;
+                };
 
 				$scope.navbarEntries = [
 			  {

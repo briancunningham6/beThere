@@ -9,8 +9,11 @@
             <a class="navbar-brand" href="/">beThere</a>
         </div>
         <div class="navbar-collapse navbar-responsive-collapse collapse" style="height: 1px;">
-            <ul class="nav navbar-nav">
-                <li ng-repeat="entry in navbarEntries" ng-show="global.isSignedIn()"><a href="#!/{{entry.link}}">{{entry.title}}</a></li>
+            <ul class="nav navbar-nav" ng-show="global.isSignedIn()">
+                <!--<li ng-repeat="entry in navbarEntries" ng-class="{ active: isActive('/entry.title')}" ng-show="global.isSignedIn()"><a href="#!/{{entry.link}}">{{entry.title}}</a></li>-->
+                <li ng-class="{ active: isActive('/events')}" class="ng-scope"><a href="#!/events">Events</a></li>
+                <li ng-class="{ active: isActive('/teams')}" class="ng-scope"><a href="#!/teams">Teams</a></li>
+                <li ng-class="{ active: isActive('/players')}" class="ng-scope"><a href="#!/players">Players</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right" ng-hide="global.isSignedIn()">
