@@ -5,6 +5,7 @@
         </div>
         <div class="col-lg-6" ng-controller="EventsController" ng-init="find()">
             <div class="bs-example table-responsive">
+
                 <table class="table table-striped table-bordered table-hover">
                     <thead>
                     <tr>
@@ -27,7 +28,7 @@
                         <td>
                             <!--Create a select list for EventInstances here-->
                             <div class="col-lg-2 ">
-                                <select ng-model="eventinstanceselector" ng-change="selectAction(eventinstanceselector)" onchange="">
+                                <select id="eventselector" ng-model="eventinstanceselector" ng-change="selectAction(eventinstanceselector)" onchange="">
                                     <option style="display:none;" value="">Select</option>
                                     <option ng-repeat="instance in events[$index].eventinstances" value="{{instance._id}}">{{instance.startdate | date:'longDate'}}</option>
                                 </select>
@@ -41,6 +42,7 @@
         </div>
         <div class="col-lg-6" ng-controller="EventinstancesController" ng-init="find()" ng-show="selectedEvent">
             <div class="bs-example table-responsive">
+                <i class="icon-remove" style="float:right;margin:15px" ng-click="closeevent()"></i>
                 <tabset>
                     <!--<tab heading="Upcoming Dates">-->
 

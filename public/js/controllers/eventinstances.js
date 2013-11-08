@@ -3,23 +3,24 @@ window.angular.module('ngff.controllers.eventinstances', [])
     function ($scope, $rootScope, $routeParams, $location, Global, Teams, Eventinstances, SharedEvent,SharedEventinstant) {
       $scope.global = Global;
 
-        $scope.selectedEvent = "";
-
-        $scope.selectAction = function(value) {
-            //Call the shared event service
-            //debugger;
-            //$rootScope.sharedEvent = value;
-
-            //haredEvent.prepForBroadcast(value);
+        //These functions are uses in cross controller communication
+        //They ensure that changes to the Event properties propagate via
+        //a service defined in the Global service
+        $scope.closeevent = function() {
+            //Little bit of jquery to reset the dropdown :)
+            $('#eventselector').val(0);
+            SharedEvent.prepForBroadcast('');
         };
-
 
         $scope.$on('handleBroadcast', function(){
             $scope.selectedEvent = SharedEvent.selectedEvent;
         })
 
+        $scope.$on('closeEvent', function(){
+            $scope.selectedEvent = '';
+        })
+
         $scope.getEvent = function(eventId){
-            debugger;
             return function(eventinstance) {
                 return eventinstance.event._id == eventId;
             }
