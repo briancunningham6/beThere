@@ -47,19 +47,13 @@ require('./config/express')(app, config, passport)
 // Bootstrap routes
 require('./config/routes')(app, passport, auth)
 
-//// Start the app by listening on <port>
-//var port = process.env.PORT || 3000
-//app.listen(port)
-//console.log('Express app started on port '+port)
-
-
 // Create an HTTP service.
-http.createServer(app).listen(3000);
-console.log('Express app started on port 3000')
+http.createServer(app).listen(config.HTTPport);
+console.log('Express app started on port %j', config.HTTPport )
 
-// Create an HTTPS service identical to the HTTP service.
-https.createServer(config.certs, app).listen(8000);
-console.log('Express app (SSL)started on port 8000')
+//// Create an HTTPS service identical to the HTTP service.
+//https.createServer(config.certs, app).listen(config.HTTPSport);
+//console.log('Express app (SSL)started on port %j',config.HTTPsport)
 
 
 //Initializing logger 
@@ -100,8 +94,67 @@ exports = module.exports = app
 //    }
 //
 //});
+//
 
-//request = require('request-json');
+//Service that checks for upcoming pending messages
+
+var agenda = require('Agenda')({db: { address: config.db }});
+
+agenda.define('Check for pending messages', function(job, done) {
+
+    request = require('request-json');
+//date = require('date.js');
+    var Eventinstance = mongoose.model('Eventinstance')
+        ,Event = mongoose.model('Event')
+        ,Message = mongoose.model('Message')
+        ,Player = mongoose.model('Player')
+        ,todaysDate = new Date()
+
+    Eventinstance.find().populate('owner').populate('eventinstance').exec(function(err, eventinstances) {
+        if (err) {
+            res.render('error', {status: 500});
+        } else {
+            eventInstancesList = eventinstances;
+            for(i=0;i<eventInstancesList.length;i++){
+                today = todaysDate.setHours(0,0,0,0);
+                //call setHours to take the time out of the comparison
+                if(todaysDate.toDateString() == new Date(eventInstancesList[i].startdate).toDateString())
+                {
+                    //Date equals today's date
+                    console.log("This is an event for today" + eventInstancesList[i]._id);
+                    //Check status, if pending look for messages if status not pending
+                    if(eventInstancesList[i].status != 'Ready'){
+                        //Find all messages of Enventinstance that do not have a status of sent
+                        Event.find({'_id':eventInstancesList[i].event})
+                            .exec(function(err,event){
+                                //Check each Event to see if the send time/Max min attendance has passed
+
+
+                                Messages.find({'eventinstance':eventInstancesList[i]._id})
+                                    .exec(function(err,messages){
+                                        //Check each message to see if the allowed time has passed
+                                        //Any message that has not been sent send now
+                                    })
+                            })
+                    }
+                }
+                else{
+                    console.log("nope");
+                }
+            }
+        }
+    });
+
+});
+
+agenda.every('2 minutes', 'Check for pending messages');
+
+agenda.start();
+
+
+
+
+
 //var client = request.newClient('http://localhost:3000/');
 //    client.get('eventinstances/', function(err, res, body) {
 //        console.log(body);
@@ -117,12 +170,13 @@ exports = module.exports = app
 //                console.log("This is an event for today" + eventInstancesList[i]._id);
 //            }
 //        }
-//
+
 //    client.get('messages/', function(err, res, body) {
 //        return console.log(body);
 //    });
 //    return;
-//});
+
+
 //
 //
 ////Get section check for upcomming messages and sends them out!!

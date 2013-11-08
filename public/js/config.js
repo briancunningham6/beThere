@@ -60,6 +60,10 @@ window.app.config(['$routeProvider', function($routeProvider) {
     {
         templateUrl: 'views/eventinstances/create.html'
     })
+    .when('/eventinstances/:eventinstanceId',
+    {
+        templateUrl: 'views/events/view.html'
+    })
     .when('/eventinstances/:eventinstanceId/edit',
     {
         templateUrl: 'views/eventinstances/edit.html'

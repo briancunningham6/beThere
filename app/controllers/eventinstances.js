@@ -19,14 +19,14 @@ exports.show = function(req, res){
 }
 
 exports.eventinstance = function(req, res, next, id){
-  var Eventinstance = mongoose.model('Eventinstance')
-
-  Eventinstance.load(id, function (err, eventinstance) {
-    if (err) return next(err)
-    if (!eventinstance) return next(new Error('Failed to load eventinstance ' + id))
-    req.eventinstance = eventinstance
-    next()
-  })
+    Eventinstance.findOne({'_id':id}).populate('owner').exec(function(err, eventinstance) {
+        if (err) {
+            res.render('error', {status: 500});
+        } else {
+            req.eventinstance = eventinstance
+            next()
+        }
+    });
 }
 
 exports.all = function(req, res){

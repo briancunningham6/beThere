@@ -19,6 +19,8 @@ module.exports = {
     db: 'mongodb://localhost/beThere-dev',
     root: rootPath,
     notifier: notifier,
+    HTTPport : 3000,
+    HTTPSport : 8000,
     smsGateway: 'http://89.101.34.173:9090/sendsms',
     app: {
       name: 'beThere - Development'
@@ -32,6 +34,9 @@ module.exports = {
     db: 'mongodb://localhost/beThere-test',
     root: rootPath,
     notifier: notifier,
+    HTTPport : 3000,
+    HTTPSport : 8000,
+    smsGateway: 'http://89.101.34.173:9090/sendsms',
     app: {
       name: 'beThere - Test'
     }
@@ -40,6 +45,8 @@ module.exports = {
     db: 'mongodb://localhost/beThere',
     root: rootPath,
     notifier: notifier,
+    HTTPport : 80,
+    HTTPSport : 443,
     app: {
       name: 'beThere - Production'
     },

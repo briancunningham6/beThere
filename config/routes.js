@@ -45,7 +45,7 @@ module.exports = function (app, passport, auth) {
 
     // eventinstance routes
     var eventinstances = require('../app/controllers/eventinstances')
-    app.get('/eventinstances',auth.requiresLogin, eventinstances.all)
+    app.get('/eventinstances', eventinstances.all)
     //app.get('/eventinstances/event/:eventId',auth.requiresLogin, eventinstances.eventdates)
     app.post('/eventinstances', auth.requiresLogin, eventinstances.create)
     app.get('/eventinstances/:eventinstanceId', eventinstances.show)
@@ -66,7 +66,7 @@ module.exports = function (app, passport, auth) {
 
     var messages = require('../app/controllers/messages')
     app.get('/messages',auth.requiresLogin, messages.all)
-    app.get('/messages/receive',auth.requiresLogin, messages.receive)
+    app.get('/messages/receive', messages.receive)
     app.post('/messages', auth.requiresLogin, messages.create)
     app.get('/messages/:messageId', messages.show)
     app.put('/messages/:messageId', auth.requiresLogin, messages.update)

@@ -5,6 +5,8 @@ var mongoose = require('mongoose')
     , Eventinstance = mongoose.model('Eventinstance')
     , Event= mongoose.model('Event')
     , _ = require('underscore')
+    , env = process.env.NODE_ENV || 'development'
+    , config = require('../../config/config')[env]
 
 exports.create = function (req, res) {
     var message = new Message(req.body)
@@ -87,7 +89,7 @@ exports.sendSMS = function(req, res){
 
                         //Send Message!
                         request = require('request-json');
-                        var client = request.newClient('http://89.101.34.173:9090');
+                        var client = request.newClient(config.smsGateway);
                         client.post('/sendsms?phone='+phonenumber+'&text='+message+'&password=pass', function(err, res, body) {
                             if (err) {
                                 res.render('error', {status: 500});
