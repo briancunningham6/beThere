@@ -3,24 +3,27 @@ window.angular.module('ngff.controllers.teams', [])
     function($scope, $routeParams, $location, Global, Events, Teams,Players,myPlayers) {
       $scope.global = Global;
 
+
         //Helper function to set the scoped playerlist from the Player service
-        getFullPlayerList = function(){
+        $scope.playerlist = '';
+        getFullPlayerList = function(cb){
             myPlayers.getPlayers().then(function (data) {
                 $scope.playerlist = data.data;
-
+                debugger;
+                cb(data);
             });
         }
 
         $scope.populateEvents = function(query) {
-        Events.query(query, function (events) {
+            Events.query(query, function (events) {
 
-          $scope.events = events;
+            $scope.events = events;
             myPlayers.getPlayers().then(function (data) {
                 $scope.playerlist2 = data.data;
 
+                });
             });
-        });
-      };
+        };
 
       $scope.create = function () {
         var team = new Teams({
@@ -65,11 +68,13 @@ window.angular.module('ngff.controllers.teams', [])
             value: false
         }];
 
+        //TODO: find out why this is necessary
         //Create copy the view model for some reason? NB!!
         $scope.playerlistCopy = [];
         $scope.init = function(){
             $scope.playerlistCopy = angular.copy($scope.playerlist );
         }
+
 
       $scope.findOne = function () {
         Teams.get({ teamId: $routeParams.teamId }, function (team) {
@@ -77,8 +82,12 @@ window.angular.module('ngff.controllers.teams', [])
           $scope.team = team;
           //If there is an existing list in the database parse it into an array
           if (team.playerlist){
-              
-              $scope.playerlist =  JSON.parse(team.playerlist);
+
+              fullPlayerlist = getFullPlayerList(function(result){
+                  fullPlayerlist = result.data;
+                  savedPlayerList = JSON.parse(team.playerlist);
+                  $scope.playerlist =  $.extend(fullPlayerlist,savedPlayerList);
+              });
           }else{
               //If not set the scoped list of players from the Players service
               getFullPlayerList();

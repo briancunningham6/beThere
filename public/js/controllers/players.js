@@ -36,7 +36,7 @@ window.angular.module('ngff.controllers.players', [])
                 var player = $scope.player;
 
                 player.$update(function () {
-                    $location.path('players/' + player._id);
+                    $location.path('players');
                 });
             };
 

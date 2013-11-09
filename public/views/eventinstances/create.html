@@ -1,5 +1,5 @@
 <section ng-controller="EventinstancesController">
-    <form class="form-horizontal" ng-submit="create()">
+    <form class="form-horizontal" ng-submit="create()" ng-init="populateEvents()">
         <div class="row page-header">
             <div class="col-lg-6">
                 <div class="well">
@@ -7,13 +7,22 @@
                         <fieldset>
                             <legend>Event Details...</legend>
                             <div class="form-group">
-                                <label for="location" class="col-lg-2 control-label">Location</label>
-                                <div class="col-lg-10">
-                                    <input type="text" class="form-control" ng-model="eventinstance.currentattend"  placeholder="Current attendance">
+                                <label for="select" class="col-lg-2 control-label">Event</label>
+                                <div class="col-lg-5">
+                                    <select class="form-control" required
+                                            ng-model="eventlist.event"
+                                            name="event"
+                                            required="required"
+                                            ng-options="c._id as c.name for c in events">
+                                        <option value="">Choose a event:</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" ng-model="eventinstance.startdate" jqinstancepicker placeholder="Start date"/>
+                            <div class="form-group">
+                                <label for="location" class="col-lg-2 control-label">Start</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" ng-model="eventinstance.startdate" jqinstancepicker placeholder="Start date"/>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">

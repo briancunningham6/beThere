@@ -103,7 +103,6 @@ var agenda = require('Agenda')({db: { address: config.db }});
 agenda.define('Check for pending messages', function(job, done) {
 
     request = require('request-json');
-//date = require('date.js');
     var Eventinstance = mongoose.model('Eventinstance')
         ,Event = mongoose.model('Event')
         ,Message = mongoose.model('Message')
@@ -116,27 +115,27 @@ agenda.define('Check for pending messages', function(job, done) {
         } else {
             eventInstancesList = eventinstances;
             for(i=0;i<eventInstancesList.length;i++){
-                today = todaysDate.setHours(0,0,0,0);
-                //call setHours to take the time out of the comparison
                 if(todaysDate.toDateString() == new Date(eventInstancesList[i].startdate).toDateString())
                 {
-                    //Date equals today's date
-                    console.log("This is an event for today" + eventInstancesList[i]._id);
-                    //Check status, if pending look for messages if status not pending
-                    if(eventInstancesList[i].status != 'Ready'){
-                        //Find all messages of Enventinstance that do not have a status of sent
-                        Event.find({'_id':eventInstancesList[i].event})
-                            .exec(function(err,event){
-                                //Check each Event to see if the send time/Max min attendance has passed
-
-
-                                Messages.find({'eventinstance':eventInstancesList[i]._id})
-                                    .exec(function(err,messages){
-                                        //Check each message to see if the allowed time has passed
-                                        //Any message that has not been sent send now
-                                    })
-                            })
-                    }
+//                    //Date equals today's date
+//                    console.log("This is an event for today" + eventInstancesList[i]._id);
+//                    //Check status, if pending look for messages if status not pending
+//                    if(eventInstancesList[i].status != 'Ready'){
+//                        //Find all messages of Enventinstance that do not have a status of sent
+//                        Event.find({'_id':eventInstancesList[i].event})
+//                            .exec(function(err,event){
+//                                //Check each Event to see if the send time/Max min attendance has passed
+//                                //TODO: fix the hours arry values in the database
+//                                if(event.maxAttendance > eventinstance.currentattend && event.notificationtime < todaysDate.getHours()){
+//                                    Messages.find({'eventinstance':eventInstancesList[i]._id})
+//                                        .exec(function(err,messages){
+//                                            //Check each message to see if the allowed time has passed
+//                                            //Any message that has not been sent send now
+//                                            //Then increment the counter on the eventinstance.currentattend and save.
+//                                        })
+//                                }
+//                            })
+//                    }
                 }
                 else{
                     console.log("nope");
@@ -144,53 +143,8 @@ agenda.define('Check for pending messages', function(job, done) {
             }
         }
     });
-
 });
 
 agenda.every('2 minutes', 'Check for pending messages');
 
 agenda.start();
-
-
-
-
-
-//var client = request.newClient('http://localhost:3000/');
-//    client.get('eventinstances/', function(err, res, body) {
-//        console.log(body);
-//        var todaysDate = new Date();
-//
-//        eventInstancesList = body;
-//        for(i=0;i<eventInstancesList.length;i++){
-//
-//            //call setHours to take the time out of the comparison
-//            if(new Date(eventInstancesList[i].startdate).setHours(0,0,0,0) == todaysDate.setHours(0,0,0,0));
-//            {
-//                //Date equals today's date
-//                console.log("This is an event for today" + eventInstancesList[i]._id);
-//            }
-//        }
-
-//    client.get('messages/', function(err, res, body) {
-//        return console.log(body);
-//    });
-//    return;
-
-
-//
-//
-////Get section check for upcomming messages and sends them out!!
-//var callback=function(){ console.log("erwer")}
-//var list=['some','list'];
-//var repeaterFunction = function(){console.log("do now!")}
-//
-//
-//var start = function (list, callback){
-//    repeaterFunction();
-//    var repeater = setInterval(repeaterFunction, 5000, list, function (parsedList) {
-//        // CODE STUFF HERE
-//        // THEN THE CALLBACK.
-//        callback(parsedDynamicList);
-//    });
-//}
-//start();

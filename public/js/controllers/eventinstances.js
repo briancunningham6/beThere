@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.eventinstances', [])
-  .controller('EventinstancesController', ['$scope','$rootScope','$routeParams','$location','Global','Teams', 'Eventinstances','SharedEvent','SharedEventinstant',
-    function ($scope, $rootScope, $routeParams, $location, Global, Teams, Eventinstances, SharedEvent,SharedEventinstant) {
+  .controller('EventinstancesController', ['$scope','flash','$rootScope','$routeParams','$location','Global','Teams', 'Events','Eventinstances','SharedEvent','SharedEventinstant',
+    function ($scope,flash,$rootScope, $routeParams, $location, Global, Teams, Events, Eventinstances, SharedEvent,SharedEventinstant) {
       $scope.global = Global;
 
         //These functions are uses in cross controller communication
@@ -26,13 +26,27 @@ window.angular.module('ngff.controllers.eventinstances', [])
             }
         }
 
+        $scope.populateEvents = function(query) {
+            Events.query(query, function (events) {
+
+                $scope.events = events;
+                myPlayers.getPlayers().then(function (data) {
+                    $scope.playerlist2 = data.data;
+
+                });
+            });
+        };
+
       $scope.create = function () {
+        //Get list of Events that the user can select
+
         var eventinstance = new Eventinstances({
             startdate: new Date(this.eventinstance.startdate)
         });
 
         eventinstance.$save(function (response) {
-          $location.path("eventinstances/" + response._id);
+          flash.success('Event instance created!');
+          $location.path("events/");
         });
 
         //this.eventinstance.startdate = "";
@@ -48,7 +62,9 @@ window.angular.module('ngff.controllers.eventinstances', [])
       };
 
      	$scope.findOne = function () {
-            debugger;
+            getFullPlayerList(function(result){
+                $scope.eventlist =  result.data;
+            });
             Eventinstances.get({ eventinstanceId: $routeParams.eventinstanceId }, function (eventinstance) {
     	    $scope.eventinstance = eventinstance;
     	  });

@@ -1,12 +1,17 @@
 window.angular.module('ngff.controllers.events', [])
-  .controller('EventsController', ['$scope','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent','SharedEventinstant',
-    function ($scope, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent, SharedEventinstant) {
+  .controller('EventsController', ['$scope','flash','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent','SharedEventinstant',
+    function ($scope, flash, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent, SharedEventinstant) {
       $scope.global = Global;
 
 
         //These functions are uses in cross controller communication
         //They ensure that changes to the Event properties propagate via
         //a service defined in the Global service
+
+        $scope.closeevent = function() {
+            SharedEvent.prepForBroadcast('');
+        };
+
         $scope.selectAction = function(value) {
             //Call the shared event service
             SharedEvent.prepForBroadcast(value);
@@ -14,6 +19,10 @@ window.angular.module('ngff.controllers.events', [])
 
         $scope.$on('handleBroadcast', function(){
             $scope.selectedEvent = SharedEvent.selectedEvent;
+        })
+
+        $scope.$on('closeEvent', function(){
+            $scope.selectedEvent = '';
         })
 
         $scope.populateTeams = function(query) {
@@ -45,7 +54,9 @@ window.angular.module('ngff.controllers.events', [])
         });
 
         event.$save(function (response) {
-          $location.path("events/" + response._id);
+          //$location.path("events/" + response._id);
+            flash.success = 'Event created....!';
+            $location.path("events/");
         });
         this.event.name = "";
       };

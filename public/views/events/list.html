@@ -1,6 +1,18 @@
 <section>
     <div class="row">
-        <div class="page-header">
+        <div class="flash-area col-lg-12 content">
+            <!-- Subscribe to success flash messages. -->
+            <span flash-alert="success" active-class="in" class="alert fade">
+                <strong class="alert-heading">Congrats!</strong>
+                <span class="alert-message">{{flash.message}}</span>
+            </span>
+
+            <!-- Subscribe to error flash messages. -->
+            <span flash-alert="error" active-class="in" class="alert fade">
+                <strong class="alert-heading">Boo!</strong>
+                <span class="alert-message">{{flash.message}}</span>
+            </span>
+
             <h1 id="tables">Events<a href="/#!/events/create" class="btn btn-success pull-right">Create new Event</a></h1>
         </div>
         <div class="col-lg-6" ng-controller="EventsController" ng-init="find()">
@@ -23,7 +35,7 @@
                         <td>{{event.location}}</td>
                         <td>
                             (<a href="#!/events/{{ event._id }}/edit">Edit</a>)
-                            (<a href="" ng-click="remove(event)" >Remove</a>)
+                            (<a href="" ng-click="remove(event);closeevent();" >Remove</a>)
                         </td>
                         <td>
                             <!--Create a select list for EventInstances here-->
