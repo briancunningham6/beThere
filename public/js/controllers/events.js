@@ -37,6 +37,10 @@ window.angular.module('ngff.controllers.events', [])
         $scope.morningtimes = consts.getMorningTimes();
         $scope.recurrings = consts.getRecurringOptions();
 
+        $scope.updateMessage = function(){
+            $scope.event.message = "Hi," + $scope.event.name + " today in " + $scope.event.location + " at " + $scope.event.time +". Reply with '"+ $scope.event.confirmword + "' to join or '"+$scope.event.declineword+"' if you cant come. Thanks";
+        }
+
       $scope.create = function () {
         var event = new Events({
           name: this.event.name,
@@ -49,8 +53,12 @@ window.angular.module('ngff.controllers.events', [])
           enddate: new Date(this.event.enddate),
           recurring: this.event.recurring,
           notificationtime: this.event.notificationtime,
+          disabled: this.event.disabled,
+          message: this.event.message,
           reminderstime: this.event.reminderstime,
-          team: this.event.team
+          team: this.event.team,
+          confirmword: this.event.confirmword,
+          declineword: this.event.declineword
         });
 
         event.$save(function (response) {
@@ -65,6 +73,8 @@ window.angular.module('ngff.controllers.events', [])
         Events.query(query, function (events) {
           //events.startdate = new Date(events.startdate);
           $scope.events = events;
+            debugger;
+          flash.success = 'TEST!! create....!';
 
         });
       };
@@ -91,5 +101,6 @@ window.angular.module('ngff.controllers.events', [])
     	      $scope.events.splice(i, 1)
     	    }
     	  }
+          flash.error = 'Event has been deleted!';
     	};
     }]);

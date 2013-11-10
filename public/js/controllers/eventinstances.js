@@ -56,7 +56,7 @@ window.angular.module('ngff.controllers.eventinstances', [])
       $scope.find = function (query) {
         Eventinstances.query(query, function (eventinstances) {
           $scope.eventinstances = eventinstances;
-
+            debugger;
 
         });
       };
@@ -65,6 +65,7 @@ window.angular.module('ngff.controllers.eventinstances', [])
             getFullPlayerList(function(result){
                 $scope.eventlist =  result.data;
             });
+            debugger;
             Eventinstances.get({ eventinstanceId: $routeParams.eventinstanceId }, function (eventinstance) {
     	    $scope.eventinstance = eventinstance;
     	  });

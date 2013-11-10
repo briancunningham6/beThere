@@ -2,8 +2,7 @@ var mongoose = require('mongoose')
   , async = require('async')
   , Eventinstance = mongoose.model('Eventinstance')
   , Event = mongoose.model('Event')
-
-    , Message = mongoose.model('Message')
+  , Message = mongoose.model('Message')
   , Player = mongoose.model('Player')
   , _ = require('underscore')
 
@@ -18,6 +17,7 @@ Date.dateDiff = function(datepart, fromdate, todate) {
         n:60000,
         s:1000 };
 
+    //TODO: fix this so that correct dates work
     return Math.floor( diff/divideBy[datepart]);
 }
 
@@ -71,30 +71,26 @@ createRecurringInstances = function(event){
                     //Push message onto the eventinstance
                     //eventinstance.messages.push(message);
                     //eventinstance.save();
-
-                    event.eventinstances.push(eventinstance);
-                    event.save();
-
                 }
+                event.eventinstances.push(eventinstance);
+                event.save();
             });
         });
     }
 }
 
 exports.create = function (req, res) {
-  var eventId = null;
-  var event = new Event(req.body)
-  event.owner = req.user
-  event.team = req.body.team;
-  event.save(function(err, event) {
+    var eventId = null;
+    var event = new Event(req.body)
+    event.owner = req.user
+    event.team = req.body.team;
+    event.save(function(err, event) {
       eventId = event.id;
       console.log(eventId);
 
       // Create eventinstance for the given dates
       createRecurringInstances(event);
-
-
-  });
+    });
 
   res.jsonp(event)
 }
@@ -115,7 +111,7 @@ exports.show = function(req, res){
 //}
 
 exports.event = function(req, res, next, id){
-    Event.findOne({'_id':id}).populate('owner').exec(function(err, event) {
+    Event.findOne({'_id':id}).populate('owner').populate('team').exec(function(err, event) {
         if (err) {
             res.render('error', {status: 500});
         } else {
@@ -134,7 +130,7 @@ exports.all = function(req, res, next){
 
 
 
- Event.find().populate('owner').populate('eventinstances').populate({path:'eventinstances.messages', model:Eventinstance}).exec(function(err, events) {
+ Event.find().populate('owner').populate('eventinstances').populate('team').populate({path:'eventinstances.messages', model:Eventinstance}).exec(function(err, events) {
    if (err) {
      res.render('error', {status: 500});
    } else {

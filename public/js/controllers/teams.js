@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.teams', [])
-  .controller('TeamsController', ['$scope','$routeParams','$location','Global','Events','Teams','Players','myPlayers',
-    function($scope, $routeParams, $location, Global, Events, Teams,Players,myPlayers) {
+  .controller('TeamsController', ['$scope','flash','$routeParams','$location','Global','Events','Teams','Players','myPlayers',
+    function($scope, flash, $routeParams, $location, Global, Events, Teams,Players,myPlayers) {
       $scope.global = Global;
 
 
@@ -34,9 +34,9 @@ window.angular.module('ngff.controllers.teams', [])
         });
           
 
-          team.$save(function (response) {
-            
-          $location.path("teams/" + response._id);
+        team.$save(function (response) {
+          flash.success = 'Team created';
+          $location.path("teams/");
         });
 
         this.event = "";
@@ -103,6 +103,7 @@ window.angular.module('ngff.controllers.teams', [])
             $scope.teams.splice(i, 1)
           }
         }
+        flash.error = 'Team has been deleted!';
       };
     }
   ]);

@@ -6,6 +6,7 @@ var mongoose = require('mongoose')
 var EventinstanceSchema = new Schema({
     startdate: { type : Date, default: Date.now },
     currentattend:{type: Number, default:0},
+    status: { type : String, default: 'Pending' },
     event:  {type: Schema.ObjectId, ref: 'Event'},
     owner: {type: Schema.ObjectId, ref: 'User'},
     messages: {type: Schema.Types.ObjectId, ref: 'Message'}

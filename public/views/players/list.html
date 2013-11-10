@@ -1,9 +1,20 @@
 <section ng-controller="PlayersController" ng-init="find()">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="page-header">
-                <h1 id="tables">Players<a href="/#!/players/create" class="btn btn-success pull-right">Create</a></h1>
+            <div class="flash-area col-lg-12 content">
+                <!-- Subscribe to success flash messages. -->
+                    <span flash-alert="success" active-class="in" class="alert fade col-lg-12 ">
+                        <strong class="alert-heading">Congrats!</strong>
+                        <span class="alert-message">{{flash.message}}</span>
+                    </span>
 
+                <!-- Subscribe to error flash messages. -->
+                    <span flash-alert="error" active-class="in" class="alert fade">
+                        <strong class="alert-heading">Boo!</strong>
+                        <span class="alert-message">{{flash.message}}</span>
+                    </span>
+
+                <h1 id="tables">Players<a href="/#!/players/create" class="btn btn-success pull-right">Create</a></h1>
+                </div>
             </div>
 
             <div class="bs-example table-responsive">
@@ -20,7 +31,7 @@
                     <tr data-ng-repeat="player in players">
                         <td>{{$index + 1}}</td>
                         <td><a href="#!/players/{{ player._id }}">{{player.firstname}}&nbsp;{{player.lastname}}</a></td>
-                        <td>{{player.phonenumber}}</td>
+                        <td>+353 {{player.phonenumber}}</td>
                         <td>
                             (<a href="#!/players/{{ player._id }}/edit">Edit</a>)
                             (<a href="" ng-click="remove(player)" >Remove</a>)

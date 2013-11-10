@@ -16,6 +16,7 @@ var express = require('express')
 var https = require('https');
 var http = require('http');
 
+
 /**
  * Main application entry file.
  * Please note that the order of loading is important.
@@ -28,8 +29,25 @@ var env = process.env.NODE_ENV || 'development'
   , auth = require('./config/middlewares/authorization')
   , mongoose = require('mongoose')
 
+
 // Bootstrap db connection
 var db = mongoose.connect(config.db)
+
+
+//Setup logging
+var winston = require('winston');
+require('winston-mongodb').MongoDB;
+
+//var MongoDB = require('winston-mongodb').MongoDB;
+//var logger = new (winston.Logger)({
+//    transports: [
+//        new (winston.transports.Console)(),
+//        new (winston.transports.MongoDB)({ host: 'localhost',  db: 'caribcultivate', collection: 'log', level: 'info'})
+//    ], exceptionHandlers: [ new winston.transports.Console() ]
+//});
+////logger.log('info', "Running logs "+ new Date());
+
+
 
 // Bootstrap models
 var models_path = __dirname + '/app/models'
@@ -109,6 +127,8 @@ agenda.define('Check for pending messages', function(job, done) {
         ,Player = mongoose.model('Player')
         ,todaysDate = new Date()
 
+    var eventInstancesList;
+
     Eventinstance.find().populate('owner').populate('eventinstance').exec(function(err, eventinstances) {
         if (err) {
             res.render('error', {status: 500});
@@ -117,25 +137,53 @@ agenda.define('Check for pending messages', function(job, done) {
             for(i=0;i<eventInstancesList.length;i++){
                 if(todaysDate.toDateString() == new Date(eventInstancesList[i].startdate).toDateString())
                 {
-//                    //Date equals today's date
-//                    console.log("This is an event for today" + eventInstancesList[i]._id);
-//                    //Check status, if pending look for messages if status not pending
-//                    if(eventInstancesList[i].status != 'Ready'){
-//                        //Find all messages of Enventinstance that do not have a status of sent
-//                        Event.find({'_id':eventInstancesList[i].event})
-//                            .exec(function(err,event){
-//                                //Check each Event to see if the send time/Max min attendance has passed
-//                                //TODO: fix the hours arry values in the database
-//                                if(event.maxAttendance > eventinstance.currentattend && event.notificationtime < todaysDate.getHours()){
-//                                    Messages.find({'eventinstance':eventInstancesList[i]._id})
-//                                        .exec(function(err,messages){
-//                                            //Check each message to see if the allowed time has passed
-//                                            //Any message that has not been sent send now
-//                                            //Then increment the counter on the eventinstance.currentattend and save.
-//                                        })
-//                                }
-//                            })
-//                    }
+                    var currentattendance = eventInstancesList[i].currentattend;
+                    var currenteventinstanceid = eventInstancesList[i]._id;
+                    var ownerid = eventInstancesList[i].owner;
+                    //Check status, if pending look for messages if status not pending
+                    if(eventInstancesList[i].status != 'Ready'){
+                        //Find all messages of Enventinstance that do not have a status of sent
+                        console.log("Looking for event");
+                        Event.findOne({'_id':eventInstancesList[i].event})
+                            .exec(function(err,event){
+                                //Check each Event to see if the send time/Max min attendance has passed
+                                //TODO: fix the hours arry values in the database
+                                //console.log(event);
+                                //console.log("Checking if event is full: max %j and current %k", event.maxAttendance,currentattendance );
+                                // If Event is disabled do not go any further
+                                if (event.disabled == false){
+                                    return 'This event has been disabled';
+                                }
+                                //TODO: Check the times!!!
+                                if(event.maxAttendance > currentattendance){
+                                    console.log("Event not full");
+                                    Message.find({'eventinstance':currenteventinstanceid})
+                                        .exec(function(err,messages){
+                                            //Check each message to see if the allowed time has passed
+                                            //Any message that has not been sent send now
+                                            //Then increment the counter on the eventinstance.currentattend and save.
+                                            messages.forEach(function(message){
+                                                if (message.status != 'Sent'){
+                                                    console.log("Sending message to %j now",message.player);
+                                                    console.log(config.HTTPDomain+':'+config.HTTPport+'/messages/sendSMS');
+                                                    var request = require('request');
+                                                    //console.log(message);
+                                                    request.post(
+                                                        config.HTTPDomain+':'+config.HTTPport+'/messages/sendSMS',
+                                                        { form: {  messageid: message.id, ownerid: ownerid, messagetype:'eventnotification'}  },
+                                                        function (error, response, body) {
+                                                            if (!error ) {
+                                                                //Set the message status to Sent!!
+                                                                console.log('Message sent and updated!');
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            })
+                                        })
+                                }
+                            })
+                    }
                 }
                 else{
                     console.log("nope");

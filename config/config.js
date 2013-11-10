@@ -19,9 +19,10 @@ module.exports = {
     db: 'mongodb://localhost/beThere-dev',
     root: rootPath,
     notifier: notifier,
+    HTTPDomain: 'http://localhost',
     HTTPport : 3000,
     HTTPSport : 8000,
-    smsGateway: 'http://89.101.34.173:9090/sendsms',
+    smsGateway: 'http://89.101.92.239:9090/',
     app: {
       name: 'beThere - Development'
     },

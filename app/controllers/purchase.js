@@ -71,6 +71,7 @@ exports.buy = function(req, res){
             })
             purchase.save(function(err){
                 //Purchase initiated waiting for response from Stripe
+
                 return res.redirect('/')
             })
 

@@ -66,7 +66,8 @@ module.exports = function (app, passport, auth) {
 
     var messages = require('../app/controllers/messages')
     app.get('/messages',auth.requiresLogin, messages.all)
-    app.get('/messages/receive', messages.receive)
+    app.get('/messages/receiveSMS', messages.receiveSMS)
+    //app.post('/messages/sendSMS', messages.sendSMS)
     app.post('/messages', auth.requiresLogin, messages.create)
     app.get('/messages/:messageId', messages.show)
     app.put('/messages/:messageId', auth.requiresLogin, messages.update)

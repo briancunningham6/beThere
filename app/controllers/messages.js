@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
     , async = require('async')
     , Message = mongoose.model('Message')
     , User = mongoose.model('User')
+    , Player = mongoose.model('Player')
     , Eventinstance = mongoose.model('Eventinstance')
     , Event= mongoose.model('Event')
     , _ = require('underscore')
@@ -51,24 +52,108 @@ exports.update = function(req, res){
 }
 
 
-exports.receive = function(req, res){
+exports.receiveSMS = function(req, res){
+    debugger;
     console.log(req.query.phone);
     console.log(req.query.smscenter);
     console.log(req.query.text);
+
+    var phone = req.query.phone;
+    var text = req.query.text;
+
+    //strip prefix off the phone number
+    if (phone.substring(0,5) == "00353"){
+        phone = phone.substring(5,phone.length);
+    }
+    else if(phone.substring(0,4) == "+353"){
+        phone = phone.substring(4,phone.length);
+    }
+    else if(phone.substring(0,1) == "0"){
+        phone = phone.substring(1,phone.length);
+    }
+    //TODO: implement the following
+    //Find a player that has this number
+    Player.findOne({'phonenumber' : phone })
+        .exec(function(err,player){
+            Eventinstance.find().populate('owner').exec(function(err, eventinstances) {
+                if (err) {
+                    res.render('error', {status: 500});
+                } else {
+                    eventInstancesList = eventinstances;
+                    todaysDate = new Date();
+                    for(i=0;i<eventInstancesList.length;i++){
+                        if(todaysDate.toDateString() == new Date(eventInstancesList[i].startdate).toDateString())
+                        {
+                            console.log('There is an event happening today');
+                            Event.findOne({'_id': eventInstancesList[i].event}).populate('team').exec(function(err, event) {
+                                if (err) {
+                                    res.render('error', {status: 500});
+                                }
+                                else{
+                                    if(event.team){
+                                        //Look for this player in this team
+                                        playerlist = JSON.parse(event.team.playerlist);
+                                        playerId = -1;
+                                        var i = 0;
+                                        for(i=0;i<playerlist.length;i++){
+                                            if (playerlist[i]['phonenumber'] = phone){
+                                                playerId = playerlist[i]['_id'];
+                                                break;
+                                            }
+                                        }
+
+                                        if(playerId == -1){
+                                            return "FAIL!!";
+                                        }
+
+                                        //Look for a message with this player id and eventinstance
+                                        console.log(eventInstancesList[i].id);
+                                        Message.findOne([{'_id': playerId,'eventinstance':eventInstancesList[i].id}])
+                                            .exec(function(err, message){
+                                                //Check if message contains the confirm/ words
+                                                eventinstance = eventInstancesList[i];
+                                                if (text.indexOf(event.confirmword > 0)){
+                                                    message.status = 'Confirmed';
+                                                    eventinstance.currentattend += 1;
+                                                    if (eventinstance.currentattend == event.maxAttendance)
+                                                    {
+                                                        eventinstance.status = 'Ready';
+                                                    }
+                                                }
+                                                else if (text.indexOf(event.declineword)){
+                                                    message.status = 'Declined';
+                                                }
+                                                message.response = text;
+                                                message.save();
+                                                eventinstance.save();
+                                                console.log('Mesage saved eventinstance updated');
+                                            }
+                                        )
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            })
+        })
+    //Find an eventinstance happening today with this player
+    //Find a message that has this player and eventinstance
+    //Check text if it contains confirmword/declineword
+    //Update eventinstance
+    //Update event
+    //Update message status
+    //return
     res.jsonp("Message Received!");
 }
-
-exports.sendverificationcode = function(){
-
-}
-
 
 exports.sendSMS = function(req, res){
     var messageid = req.body.messageid;
     var ownerid = req.body.ownerid;
-    var type = req.body.type;
+    var messagetype = req.body.messagetype;
 
-    switch(type){
+
+    switch(messagetype){
         case "phoneconfirmation":
         {
             //{REQUIRES A VALID OWNERID}
@@ -114,97 +199,65 @@ exports.sendSMS = function(req, res){
             //Lookup the Player from the message
             //Send the message to the player.phonenumber with the event.message
             //If it returns "Message sent!", update the eventinstance
+            console.log('Trying to find message');
 
-            User.findOne({_id:ownerid})
-                .exec(function(err,user){
+
+            Message.findOne({_id:messageid})
+                .exec(function(err,message){
                     if (err) {
-                        res.render('Could not find user!', {status: 500});
+                        res.render('Could not find message!', {status: 500});
                     } else {
-                        Message.findOne({_id:messageid})
-                            .exec(function(err,message){
+                        Eventinstance.findOne({_id:message.eventinstance})
+                            .exec(function(err,eventinstance){
                                 if (err) {
-                                    res.render('Could not find message!', {status: 500});
+                                    res.render('Could not find eventinstance!', {status: 500});
                                 } else {
-                                    Eventinstance.findOne({_id:message.eventinstance})
-                                        .exec(function(err,eventinstance){
+                                    Event.findOne({_id:eventinstance.event})
+                                        .exec(function(err,event){
                                             if (err) {
-                                                res.render('Could not find eventinstance!', {status: 500});
+                                                res.render('Could not find event!', {status: 500});
                                             } else {
-                                                Event.findOne({_id:eventinstance.event})
-                                                    .exec(function(err,event){
+
+                                                Player.findOne({_id:message.player})
+                                                    .exec(function(err,player){
                                                         if (err) {
-                                                            res.render('Could not find event!', {status: 500});
+                                                            res.render('Could not find player!', {status: 500});
                                                         } else {
+                                                            //This is where you send the message!
+                                                            console.log('Trying to find message!!!!!!');
+                                                            text = event.message;
+                                                            phonenumber = '00353'+player.phonenumber;
 
-                                                            Player.findOne({_id:message.player})
-                                                                .exec(function(err,player){
-                                                                    if (err) {
-                                                                        res.render('Could not find event!', {status: 500});
-                                                                    } else {
-                                                                        //This is where you send the message!
+                                                            //Send Message!
+                                                            request = require('request-json');
+                                                            console.log(config.smsGateway+'sendsms?phone='+phonenumber+'&text='+encodeURIComponent(text)+'&password=pass');
+                                                            var clientforsendingsms = request.newClient(config.smsGateway);
+                                                            //TODO: need error checking here
+                                                            clientforsendingsms.post('sendsms?phone='+phonenumber+'&text='+encodeURIComponent(text)+'&password=pass');
+                                                            console.log('Messsage was sent!!!!!');
+                                                            //Mesage has been sent
+                                                            message.status = 'Sent';
+                                                            message.save();
+                                                            eventinstance.save();
+                                                            res.jsonp(1);
 
-                                                                        message = event.message;
-                                                                        phonenumber = '00353'+player.phonenumber;
-
-                                                                        //Send Message!
-                                                                        request = require('request-json');
-                                                                        var client = request.newClient('http://89.101.34.173:9090');
-                                                                        client.post('/sendsms?phone='+phonenumber+'&text='+message+'&password=pass', function(err, res, body) {
-                                                                            if (err) {
-                                                                                res.render('error', {status: 500});
-                                                                            } else {
-                                                                                //TODO: need error checking here
-                                                                                //Mesage has been sent
-                                                                                message.status = 'Sent';
-                                                                                message.save();
-                                                                                res.jsonp(1);
-                                                                            }
-                                                                        });
-                                                                        res.jsonp(1);
-
-                                                                    }
-                                                                })
                                                         }
                                                     })
-
                                             }
                                         })
+
                                 }
                             })
                     }
-                    res.jsonp(1);
                 })
+
+
         }
         case "ownertoplayer":
         {
             //{REQUIRED A VALID OWNERID, PLAYERID}
         }
     }
-
-//    Message.findOne({_id:messageid})
-//        .exec(function(err,message){
-//            if (err) {
-//                res.render('Could not find message!', {status: 500});
-//            } else {
-//                    //Update message
-//                    result.status = 'Sent';
-//                    result.sentdate = new Date();
-//                    result.save(function(err,result){
-//                        //TODO: Message sent - if sent by a user create a credit record
-//                        if(ownerid){
-//                            decrement = new Credit({
-//                                owner: ownerid,
-//                                value: -1,
-//                                reason: "Sent SMS"
-//                            });
-//                            decrement.save(function(err){
-//                                res.jsonp("SMS Sent");
-//                            })
-//                        }
-//                        res.render('Some strange error!', {status: 500});
-//                    })
-//        }
-//    })
 }
 
 exports.destroy = function(req, res){

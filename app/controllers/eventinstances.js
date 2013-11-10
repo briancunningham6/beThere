@@ -6,7 +6,7 @@ var mongoose = require('mongoose')
 
 exports.create = function (req, res) {
   var eventinstance = new Eventinstance(req.body)
-  eventinstance.commissioner = req.user
+  eventinstance.owner = req.user
   eventinstance.save()
   // Create eventinstanceinstance for the given dates
 
@@ -19,7 +19,7 @@ exports.show = function(req, res){
 }
 
 exports.eventinstance = function(req, res, next, id){
-    Eventinstance.findOne({'_id':id}).populate('owner').exec(function(err, eventinstance) {
+    Eventinstance.findOne({'_id':id}).populate('owner').populate('event').exec(function(err, eventinstance) {
         if (err) {
             res.render('error', {status: 500});
         } else {
@@ -30,7 +30,7 @@ exports.eventinstance = function(req, res, next, id){
 }
 
 exports.all = function(req, res){
- Eventinstance.find({owner: req.user._id }).populate('owner').populate('eventinstance').exec(function(err, eventinstance) {
+ Eventinstance.find({owner: req.user._id }).populate('owner').populate('eventinstance').populate('event').populate('event.team').exec(function(err, eventinstance) {
    if (err) {
      res.render('error', {status: 500});
    } else {      

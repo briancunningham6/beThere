@@ -16,7 +16,9 @@ var EventSchema = new Schema({
     minAttendance: {type: Number},
     message: {type: String},
     eventinstances : [{ type: Schema.Types.ObjectId,  ref: 'Eventinstance' }],
-    disabled: {type: Number},
+    disabled: {type: Boolean},
+    confirmword: {type: String},
+    declineword: {type: String},
 	owner: {type: Schema.ObjectId, ref: 'User'},
     team: {type: Schema.ObjectId, ref: 'Team'}
 });
