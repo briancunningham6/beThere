@@ -29,17 +29,12 @@
                                 </div>
                             </li>
                         </ul>
-                        <p style="margin-top:30px;">
-                            <a href="/signin" class="btn btn-primary btn-lg">Signin</a>
-                            &nbsp or &nbsp
-                            <a href="/signup" class="btn btn-primary btn-lg">Register and try it out</a>
-                        </p>
                         <!--<a class="btn" ng-click="addSlide()">Add Slide</a>-->
                     </div>
 
 
                     <div class="col-lg-6" style="margin:0px;padding:0px">
-                        <carousel interval="myInterval" style="height:600px;">
+                        <carousel interval="myInterval" style="height:500px;">
                             <slide ng-repeat="slide in slides" active="slide.active" style="margin-top:40px;">
                                 <img ng-src="{{slide.image}}" style="margin:auto;">
                                 <div class="carousel-caption">
@@ -48,13 +43,21 @@
                                 <div style="margin-top:30px; padding:30px;">
                                     <p>{{slide.fulltext}}</p>
                                 </div>
-
                             </slide>
                         </carousel>
                     </div>
 
                 </div>
 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <p style="margin-top:30px;padding-left:50px;">
+                <a href="/signin" class="btn btn-primary btn-lg">Signin</a>
+                &nbsp or &nbsp
+                <a href="/signup" class="btn btn-primary btn-lg">Register and try it out</a>
+            </p>
         </div>
     </div>
 </section>
