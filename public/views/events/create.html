@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label for="location" class="col-lg-2 control-label">Time/Day</label>
                                 <div class="col-lg-5">
-                                    <select ng-model="event.time" required ng-change="updateMessage()"ng-init="event.time=12"class="form-control" ng-options="item.timeId as item.timeName for item in times"></select>
+                                    <select ng-model="event.time" required ng-change="updateMessage()"ng-init="event.time=12"class="form-control" ng-options="item.Id as item.timeName for item in times"></select>
                                 </div>
                                 <div class="col-lg-5">
                                     <select ng-model="event.recurring" class="form-control" ng-init="event.recurring=0" ng-options="item.recurringId as item.recurringName for item in recurrings"></select>
