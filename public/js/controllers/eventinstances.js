@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.eventinstances', [])
-  .controller('EventinstancesController', ['$scope','flash','$rootScope','$routeParams','$location','Global','Teams', 'Events','Eventinstances','SharedEvent','SharedEventinstant',
-    function ($scope,flash,$rootScope, $routeParams, $location, Global, Teams, Events, Eventinstances, SharedEvent,SharedEventinstant) {
+  .controller('EventinstancesController', ['$scope','flash','$rootScope','$routeParams','$location','Global','Teams', 'Events','Eventinstances','SharedEvent',
+    function ($scope,flash,$rootScope, $routeParams, $location, Global, Teams, Events, Eventinstances, SharedEvent) {
       $scope.global = Global;
 
         //These functions are uses in cross controller communication
@@ -12,12 +12,27 @@ window.angular.module('ngff.controllers.eventinstances', [])
             SharedEvent.prepForBroadcast('');
         };
 
+
+//        $scope.selectAction = function(value) {
+//            //Call the shared event service
+//            result = value.split(',');
+//            eventinstanceId = result[0];
+//            eventId = result[1];
+//            SharedEvent.prepForBroadcast(result[0],result[1]);
+//        };
+
         $scope.$on('handleBroadcast', function(){
             $scope.selectedEvent = SharedEvent.selectedEvent;
+            $scope.selectedInstanceEvent = SharedEvent.selectedInstanceEvent;
+            $scope.selectedEventObject = [];
+
+            $scope.selectedEventObject = $scope.eventinstances[0].event;
+
         })
 
         $scope.$on('closeEvent', function(){
             $scope.selectedEvent = '';
+            $scope.selectedInstanceEvent = '';
         })
 
         $scope.getEvent = function(eventId){
@@ -56,7 +71,6 @@ window.angular.module('ngff.controllers.eventinstances', [])
       $scope.find = function (query) {
         Eventinstances.query(query, function (eventinstances) {
           $scope.eventinstances = eventinstances;
-            debugger;
 
         });
       };
@@ -65,7 +79,6 @@ window.angular.module('ngff.controllers.eventinstances', [])
             getFullPlayerList(function(result){
                 $scope.eventlist =  result.data;
             });
-            debugger;
             Eventinstances.get({ eventinstanceId: $routeParams.eventinstanceId }, function (eventinstance) {
     	    $scope.eventinstance = eventinstance;
     	  });

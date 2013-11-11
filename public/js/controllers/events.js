@@ -1,6 +1,6 @@
 window.angular.module('ngff.controllers.events', [])
-  .controller('EventsController', ['$scope','flash','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent','SharedEventinstant',
-    function ($scope, flash, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent, SharedEventinstant) {
+  .controller('EventsController', ['$scope','flash','$rootScope','$routeParams','$location','Global','Events','Teams','Eventinstances','SharedEvent',
+    function ($scope, flash, $rootScope, $routeParams, $location, Global, Events, Teams, Eventinstances, SharedEvent) {
       $scope.global = Global;
 
 
@@ -14,15 +14,24 @@ window.angular.module('ngff.controllers.events', [])
 
         $scope.selectAction = function(value) {
             //Call the shared event service
-            SharedEvent.prepForBroadcast(value);
+            result = value.split(',');
+            eventinstanceId = result[0];
+            eventId = result[1];
+            SharedEvent.prepForBroadcast(result[0],result[1]);
         };
 
         $scope.$on('handleBroadcast', function(){
             $scope.selectedEvent = SharedEvent.selectedEvent;
+            $scope.selectedInstanceEvent = SharedEvent.selectedInstanceEvent;
+            $scope.selectedEventObject = [];
+
+            $scope.selectedEventObject = $scope.eventinstances[0].event;
+
         })
 
         $scope.$on('closeEvent', function(){
             $scope.selectedEvent = '';
+            $scope.selectedInstanceEvent = '';
         })
 
         $scope.populateTeams = function(query) {
@@ -73,8 +82,6 @@ window.angular.module('ngff.controllers.events', [])
         Events.query(query, function (events) {
           //events.startdate = new Date(events.startdate);
           $scope.events = events;
-            debugger;
-          flash.success = 'TEST!! create....!';
 
         });
       };

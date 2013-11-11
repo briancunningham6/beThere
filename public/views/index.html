@@ -10,16 +10,51 @@
                     <span class="alert-message">{{flash.message}}</span>
                 </div>
 
-                <h1 id="container">Automate the orginization of your kickabout</h1>
+                <!--<h1 id="container">Automate the orginization of your kickabout</h1>-->
             </div>
-            <div class="bs-example">
-                <div class="jumbotron">
-                    <h1>beThere: </h1>
-                    <p>This easiest way to organize your meetup.</p>
-                    <p><a href="/signin" class="btn btn-primary btn-lg">Signin</a></p>
+
+
+
+                <div class="jumbotron" style="height:auto;overflow: hidden;padding:0px;margin:0px">
+
+                    <div class="col-lg-6" style="padding:20px 50px;">
+                        <h1>beThere: </h1>
+                        <p style="margin-bottom:30px;">This easiest way to organize your meetup.</p>
+                        <!--<p><a href="/signin" class="btn btn-primary btn-lg">Signin</a></p>-->
+                        <ul style="list-style-type: none;padding-left:0px;">
+                            <li style="font-size: 16px;margin-bottom: 15px;" ng-repeat="slide in slides">
+                                <div class="row">
+                                    <div class="col-lg-3"><button class="btn btn-mini" style="margin-top:10px;" ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true">{{slide.button}}</button></div>
+                                    <div class="col-lg-9">{{slide.text}}</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <p style="margin-top:30px;">
+                            <a href="/signin" class="btn btn-primary btn-lg">Signin</a>
+                            &nbsp or &nbsp
+                            <a href="/signup" class="btn btn-primary btn-lg">Register and try it out</a>
+                        </p>
+                        <!--<a class="btn" ng-click="addSlide()">Add Slide</a>-->
+                    </div>
+
+
+                    <div class="col-lg-6" style="margin:0px;padding:0px">
+                        <carousel interval="myInterval" style="height:600px;">
+                            <slide ng-repeat="slide in slides" active="slide.active" style="margin-top:40px;">
+                                <img ng-src="{{slide.image}}" style="margin:auto;">
+                                <div class="carousel-caption">
+                                    <!--<p>{{slide.text}}</p>-->
+                                </div>
+                                <div style="margin-top:30px; padding:30px;">
+                                    <p>{{slide.fulltext}}</p>
+                                </div>
+
+                            </slide>
+                        </carousel>
+                    </div>
 
                 </div>
-            </div>
+
         </div>
     </div>
 </section>
