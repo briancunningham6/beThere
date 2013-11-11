@@ -1,9 +1,9 @@
 {
-  "name": "mean",
+  "name": "beThere 2013",
   "description": "Mongo",
   "version": "1.0.0",
   "private": false,
-  "author": "MEAN - A Modern Stack: MongoDB, ExpressJS, AngularJS, NodeJS. (BONUS: Passport User Support).",
+  "author": "",
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"
@@ -32,6 +32,18 @@
     "view-helpers": "latest",
     "forever": "latest",
     "mean-logger": "latest",
+    "stripe": "latest",
+    "winston": "latest",
+    "winston-mongodb": "latest",
+    "requirejs": "latest",
+    "request": "latest",
+    "request-json": "latest",
+    "postmark": "latest",
+    "mocha-server": "latest",
+    "assert": "latest",
+    "grunt": "latest",
+    "grunt-server-mocha": "latest",
+    "grunt-contrib-cssmin": "latest",
     "bower": "latest",
     "less-middleware": "*",
     "bootstrap": "git+https://github.com/twitter/bootstrap.git#v2.2.2"
