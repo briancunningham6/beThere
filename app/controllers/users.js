@@ -116,13 +116,13 @@ exports.create = function (req, res) {
         ];
         //Postmark
         var postmark = require("postmark")("6b64620a-caf4-40cf-85d8-adb3d4b5c683");
-//        postmark.batch(messages, function (error, success) {
-//            if (error) {
-//                console.log("Unable to send via postmark: " + error.message);
-//                return;
-//            }
-//            console.info("Messages sent to postmark");
-//        });
+        postmark.batch(messages, function (error, success) {
+            if (error) {
+                console.log("Unable to send via postmark: " + error.message);
+                return;
+            }
+            console.info("Messages sent to postmark");
+        });
 
       return res.redirect('/')
     })
