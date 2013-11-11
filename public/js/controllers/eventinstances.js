@@ -24,10 +24,13 @@ window.angular.module('ngff.controllers.eventinstances', [])
         $scope.$on('handleBroadcast', function(){
             $scope.selectedEvent = SharedEvent.selectedEvent;
             $scope.selectedInstanceEvent = SharedEvent.selectedInstanceEvent;
-            $scope.selectedEventObject = [];
-
-            $scope.selectedEventObject = $scope.eventinstances[0].event;
-
+            $scope.selectedEventObject = SharedEvent.selectedEventObject;
+            $scope.eventinstances.forEach(function(eventinstance){
+                debugger;
+                if(eventinstance._id == SharedEvent.selectedInstanceEvent)  {
+                    $scope.selectedEventInstanceObject = eventinstance;
+                }
+            })
         })
 
         $scope.$on('closeEvent', function(){
@@ -71,6 +74,8 @@ window.angular.module('ngff.controllers.eventinstances', [])
       $scope.find = function (query) {
         Eventinstances.query(query, function (eventinstances) {
           $scope.eventinstances = eventinstances;
+          $scope.selectedEventObject = [];
+          $scope.selectedEventInstanceObject = [];
 
         });
       };

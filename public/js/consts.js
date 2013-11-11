@@ -21,40 +21,50 @@ var consts = {
 
         getEveningTimes : function(){
             times = [
-                {timeId : 0, timeName : '17:00' },
-                {timeId : 1, timeName : '17:15' },
-                {timeId : 2, timeName : '17:30' },
-                {timeId : 3, timeName : '17:45' },
-                {timeId : 4, timeName : '18:00' },
-                {timeId : 5, timeName : '18:15' },
-                {timeId : 6, timeName : '18:30' },
-                {timeId : 7, timeName : '18:45' },
-                {timeId : 8, timeName : '19:00' },
-                {timeId : 9, timeName : '19:15' },
-                {timeId : 10, timeName : '19:30' },
-                {timeId : 11, timeName : '19:45' },
-                {timeId : 12, timeName : '20:00' },
-                {timeId : 13, timeName : '20:15' },
-                {timeId : 14, timeName : '20:30' },
-                {timeId : 15, timeName : '20:45' },
-                {timeId : 16, timeName : '21:00' },
-                {timeId : 17, timeName : '21:15' },
-                {timeId : 18, timeName : '21:30' },
-                {timeId : 19, timeName : '21:45' },
-                {timeId : 20, timeName : '22:00' },
-                {timeId : 21, timeName : '22:15' },
-                {timeId : 22, timeName : '22:30' },
-                {timeId : 23, timeName : '22:45' },
-                {timeId : 24, timeName : '23:00' },
-                {timeId : 25, timeName : '23:15' },
-                {timeId : 26, timeName : '23:30' },
-                {timeId : 27, timeName : '23:45' },
-                {timeId : 28, timeName : '00:00' }
+                {Id : 0, timeName : '17:00' },
+                {Id : 1, timeName : '17:15' },
+                {Id : 2, timeName : '17:30' },
+                {Id : 3, timeName : '17:45' },
+                {Id : 4, timeName : '18:00' },
+                {Id : 5, timeName : '18:15' },
+                {Id : 6, timeName : '18:30' },
+                {Id : 7, timeName : '18:45' },
+                {Id : 8, timeName : '19:00' },
+                {Id : 9, timeName : '19:15' },
+                {Id : 10, timeName : '19:30' },
+                {Id : 11, timeName : '19:45' },
+                {Id : 12, timeName : '20:00' },
+                {Id : 13, timeName : '20:15' },
+                {Id : 14, timeName : '20:30' },
+                {Id : 15, timeName : '20:45' },
+                {Id : 16, timeName : '21:00' },
+                {Id : 17, timeName : '21:15' },
+                {Id : 18, timeName : '21:30' },
+                {Id : 19, timeName : '21:45' },
+                {Id : 20, timeName : '22:00' },
+                {Id : 21, timeName : '22:15' },
+                {Id : 22, timeName : '22:30' },
+                {Id : 23, timeName : '22:45' },
+                {Id : 24, timeName : '23:00' },
+                {Id : 25, timeName : '23:15' },
+                {Id : 26, timeName : '23:30' },
+                {Id : 27, timeName : '23:45' },
+                {Id : 28, timeName : '00:00' }
             ];
             return times;
         },
 
-        getMorningTimes : function(){
+    getEveningTimeFromIndex :function(index){
+        allEveningTimes = getEveningTimes();
+        allEveningTimes.forEach(function(time){
+           if(time.Id == index){
+               return time.timeName;
+           }
+        });
+
+    },
+
+    getMorningTimes : function(){
             morningTimes = [
                 {timeId : 0, timeName : '07:00' },
                 {timeId : 1, timeName : '07:15' },
@@ -88,6 +98,15 @@ var consts = {
             ];
             return morningTimes;
         },
+
+    getMorningTimeFromIndex :function(index){
+        allMorningTimes = getMorningTimes();
+        allMorningTimes.forEach(function(time){
+            if(time.timeId == index){
+                return time.timeName;
+            }
+        });
+    },
 
         getRecurringOptions : function(){
             recurrings = [

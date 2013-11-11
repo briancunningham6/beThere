@@ -82,24 +82,24 @@
                     <tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disabled="tab.disabled">
                         {{tab.content}}
                     </tab>
-                    <tab select="alertMe()">
+                    <tab>
                         <tab-heading>
-                            <i class="icon-bell"></i> Current Status
+                           Current Status
                         </tab-heading>
                         <div class="row">
                             <div class="col-lg-12" style="padding:10px;padding-left: 20px;">
-                                Current status is {{eventinstance.status}}.
+                                Current status is {{selectedEventInstanceObject.status}}.
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12" style="padding:10px;padding-left: 20px;">
-                                {{selectedEventObject.currentattend}} of {{selectedEventObject.event.maxAttendance}} confirmed (A minimum of {{selectedEventObject.event.maxAttendance}} is required for the event to proceed).
+                                {{selectedEventInstanceObject.currentattend}} of {{selectedEventObject.maxAttendance}} confirmed (A minimum of {{selectedEventObject.maxAttendance}} is required for the event to proceed).
                             </div>
                         </div>
                     </tab>
-                    <tab select="alertMe()">
+                    <tab>
                         <tab-heading>
-                            <i class="icon-bell"></i> Messages
+                            Messages
                         </tab-heading>
 
 
@@ -137,9 +137,9 @@
                             </div>
                         </div>
                     </tab>
-                    <tab select="alertMe()">
+                    <tab>
                         <tab-heading>
-                            <i class="icon-bell"></i> Post Match Stats
+                           Post Match Stats
                         </tab-heading>
                     </tab>
                 </tabset>

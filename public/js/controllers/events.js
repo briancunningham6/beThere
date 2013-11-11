@@ -17,15 +17,22 @@ window.angular.module('ngff.controllers.events', [])
             result = value.split(',');
             eventinstanceId = result[0];
             eventId = result[1];
-            SharedEvent.prepForBroadcast(result[0],result[1]);
+            //Look through the Events for an event with the given event ID
+            selectedEventObject = [];
+            debugger;
+            $scope.events.forEach(function(event){
+                debugger;
+              if(event._id == eventId)  {
+                  selectedEventObject = event;
+              }
+            })
+            SharedEvent.prepForBroadcast(result[0],result[1],selectedEventObject);
         };
 
         $scope.$on('handleBroadcast', function(){
             $scope.selectedEvent = SharedEvent.selectedEvent;
             $scope.selectedInstanceEvent = SharedEvent.selectedInstanceEvent;
-            $scope.selectedEventObject = [];
-
-            $scope.selectedEventObject = $scope.eventinstances[0].event;
+            $scope.selectedEventObject = $scope.selectedEventObject;
 
         })
 

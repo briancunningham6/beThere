@@ -5,11 +5,12 @@ window.angular.module('ngff.services.global', [])
         sharedEvent.selectedEvent =  '';
         sharedEvent.selectedInstanceEvent =  '';
         sharedEvent.selectedEventObject = [];
+        sharedEvent.selectedEventInstanceObject = [];
 
-        sharedEvent.prepForBroadcast = function(eventInstanceId,eventId){
+        sharedEvent.prepForBroadcast = function(eventInstanceId,eventId,selectedEventObject){
             this.selectedInstanceEvent = eventInstanceId;
             this.selectedEvent = eventId;
-            debugger;
+            this.selectedEventObject = selectedEventObject;
             this.broadcastItem();
         }
         sharedEvent.broadcastItem = function(){
