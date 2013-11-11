@@ -87,9 +87,12 @@
                            Current Status
                         </tab-heading>
                         <div class="row">
-                            <div class="col-lg-12" style="padding:10px;padding-left: 20px;">
-                                Current status is {{selectedEventInstanceObject.status}}.
+                            <div class="col-lg-12" ng-if="selectedEventInstanceObject.status == 'Pending'" style="padding:10px;padding-left: 20px;">
+                                Current status is {{selectedEventInstanceObject.status}}. This event will happen at {{selectedEventObject.time}} on {{selectedEventInstanceObject.startdate | date:'MM/dd/yyyy'}}
                             </div>
+                            <span class="col-lg-12" ng-if="selectedEventInstanceObject.status == 'Complete'" style="padding:10px;padding-left: 20px;">
+                                This event date is complete
+                            </span>
                         </div>
                         <div class="row">
                             <div class="col-lg-12" style="padding:10px;padding-left: 20px;">

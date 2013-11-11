@@ -130,7 +130,7 @@ exports.all = function(req, res, next){
 
 
 
- Event.find().populate('owner').populate('eventinstances').populate('team').populate({path:'eventinstances.messages', model:Eventinstance}).exec(function(err, events) {
+ Event.find({'owner':req.user._id}).populate('owner').populate('eventinstances').populate('team').populate({path:'eventinstances.messages', model:Eventinstance}).exec(function(err, events) {
    if (err) {
      res.render('error', {status: 500});
    } else {
