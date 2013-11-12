@@ -55,13 +55,16 @@ var consts = {
         },
 
     getEveningTimeFromIndex :function(index){
-        allEveningTimes = getEveningTimes();
+        allEveningTimes = this.getEveningTimes();
+        val = 0;
         allEveningTimes.forEach(function(time){
-           if(time.Id == index){
-               return time.timeName;
+
+            debugger;
+           if(time.Id == parseInt(index)){
+               val = time.timeName;
            }
         });
-
+        return val;
     },
 
     getMorningTimes : function(){

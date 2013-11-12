@@ -54,7 +54,8 @@ window.angular.module('ngff.controllers.events', [])
         $scope.recurrings = consts.getRecurringOptions();
 
         $scope.updateMessage = function(){
-            $scope.event.message = "Hi," + $scope.event.name + " today in " + $scope.event.location + " at " + $scope.event.time +". Reply with '"+ $scope.event.confirmword + "' to join or '"+$scope.event.declineword+"' if you cant come. Thanks";
+            $scope.event.displayTime = consts.getEveningTimeFromIndex($scope.event.time);
+            $scope.event.message = "Hi," + $scope.event.name + " today in " + $scope.event.location + " at " + $scope.event.displayTime + ". Reply with '"+ $scope.event.confirmword + "' to join or '"+$scope.event.declineword+"' if you cant come. Thanks";
         }
 
       $scope.create = function () {

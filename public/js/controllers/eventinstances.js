@@ -26,9 +26,11 @@ window.angular.module('ngff.controllers.eventinstances', [])
             $scope.selectedInstanceEvent = SharedEvent.selectedInstanceEvent;
             $scope.selectedEventObject = SharedEvent.selectedEventObject;
             $scope.eventinstances.forEach(function(eventinstance){
-                debugger;
                 if(eventinstance._id == SharedEvent.selectedInstanceEvent)  {
                     $scope.selectedEventInstanceObject = eventinstance;
+                    debugger;
+                    $scope.selectedEventObject.time = consts.getEveningTimeFromIndex($scope.selectedEventObject.time);
+                    debugger;
                 }
             })
         })
