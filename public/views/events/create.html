@@ -1,6 +1,22 @@
 <section ng-controller="EventsController">
     <form class="form-horizontal" ng-submit="create()" ng-init="populateTeams()">
-        <div class="row page-header">
+        <div class="row">
+            <div class="flash-area col-lg-12 content">
+                <!-- Subscribe to success flash messages. -->
+            <span flash-alert="success" active-class="in" class="alert fade">
+                <strong class="alert-heading">Congrats!</strong>
+                <span class="alert-message">{{flash.message}}</span>
+            </span>
+
+                <!-- Subscribe to error flash messages. -->
+            <span flash-alert="error" active-class="in" class="alert fade">
+                <strong class="alert-heading">Boo!</strong>
+                <span class="alert-message">{{flash.message}}</span>
+            </span>
+
+                <h1 id="tables">Create event<a href="/#!/events/create" class="btn btn-success pull-right">Create new Event</a></h1>
+            </div>
+
             <div class="col-lg-6">
                 <div class="well">
                     <form class="bs-example form-horizontal">

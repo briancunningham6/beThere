@@ -58,8 +58,6 @@ var consts = {
         allEveningTimes = this.getEveningTimes();
         val = 0;
         allEveningTimes.forEach(function(time){
-
-            debugger;
            if(time.Id == parseInt(index)){
                val = time.timeName;
            }

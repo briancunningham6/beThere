@@ -84,15 +84,25 @@ exports.create = function (req, res) {
     var event = new Event(req.body)
     event.owner = req.user
     event.team = req.body.team;
+    var error = null;
     event.save(function(err, event) {
-      eventId = event.id;
-      console.log(eventId);
+      if(err){
+          error = err;
+      }
+      else{
+          eventId = event.id;
+          console.log(eventId);
 
-      // Create eventinstance for the given dates
-      createRecurringInstances(event);
+          // Create eventinstance for the given dates
+          createRecurringInstances(event);
+      }
     });
-
-  res.jsonp(event)
+  if (!error){
+      res.jsonp(event)
+  }
+  else{
+      res.jsonp(error)
+  }
 }
 
 exports.show = function(req, res){

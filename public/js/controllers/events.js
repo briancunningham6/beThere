@@ -79,9 +79,16 @@ window.angular.module('ngff.controllers.events', [])
         });
 
         event.$save(function (response) {
+            debugger;
           //$location.path("events/" + response._id);
-            flash.success = 'Event created....!';
-            $location.path("events/");
+            if(response.message == 'Validation failed'){
+                flash.error = 'Validation failed, please review your data';
+
+            }
+            else{
+                flash.success = 'Event created....!';
+                $location.path("events/");
+            }
         });
         this.event.name = "";
       };
