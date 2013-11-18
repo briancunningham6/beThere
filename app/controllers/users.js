@@ -5,6 +5,8 @@
 
 var mongoose = require('mongoose')
   , User = mongoose.model('User')
+  , env = process.env.NODE_ENV || 'development'
+  , config = require('../../config/config')[env]
 
 //exports.signin = function (req, res) {}
 
@@ -105,17 +107,19 @@ exports.create = function (req, res) {
              //onsole.log('Player and team has been created')
           );
       })
-      //Send welcome mail
+        //Send welcome mail
         var messages = [
             {
                 "From": "brianc@kseudo.com",
                 "To": user.email,
                 "Subject": "Welcome to beThere",
-                "TextBody": "Click on this link to activate <a href='http://localhost:3000/users/verifyemail?email="+user.email+"&code=verifyme'>link</a>"
+                "TextBody": "Click on this link to activate <a href='http://localhost:3000/users/verifyemail?email="+user.email+"&code=verifyme'>link</a>",
+                "HtmlBody": "Click on this link to activate <a href='http://localhost:3000/users/verifyemail?email="+user.email+"&code=verifyme'>link</a>"
             }
         ];
         //Postmark
         var postmark = require("postmark")("6b64620a-caf4-40cf-85d8-adb3d4b5c683");
+        console.info("About to send email via postmark");
         postmark.batch(messages, function (error, success) {
             if (error) {
                 console.log("Unable to send via postmark: " + error.message);
@@ -123,8 +127,22 @@ exports.create = function (req, res) {
             }
             console.info("Messages sent to postmark");
         });
+        //Send verification SMS
+        console.log("Sending SMS confirmation message to %j now",user);;
+        var request = require('request');
+        request.post(
+            config.HTTPDomain+':'+config.HTTPport+'/messages/sendSMS',
+            { form: {  ownerid: user.id, messagetype:'phoneconfirmation'}  },
+            function (error, response, body) {
+                if (!error ) {
+                    //Set the message status to Sent!!
+                    console.log('SMS Message sent to new user!');
+                    //winston.log('info','SMS Message sent to new user!');
+                }
+            }
+        );
 
-      return res.redirect('/')
+        return res.redirect('/')
     })
   })
 }

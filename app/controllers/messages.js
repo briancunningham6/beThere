@@ -22,7 +22,7 @@ exports.show = function(req, res){
 
 exports.message = function(req, res, next, id){
     var Message = mongoose.model('Message')
-
+debugger;
     Message.load(id, function (err, message) {
         if (err) return next(err)
         if (!message) return next(new Error('Failed to load message ' + id))
@@ -199,58 +199,62 @@ exports.sendSMS = function(req, res){
             //Lookup the Player from the message
             //Send the message to the player.phonenumber with the event.message
             //If it returns "Message sent!", update the eventinstance
-            console.log('Trying to find message');
+
+            if (messageid){
 
 
-            Message.findOne({_id:messageid})
-                .exec(function(err,message){
-                    if (err) {
-                        res.render('Could not find message!', {status: 500});
-                    } else {
-                        Eventinstance.findOne({_id:message.eventinstance})
-                            .exec(function(err,eventinstance){
-                                if (err) {
-                                    res.render('Could not find eventinstance!', {status: 500});
-                                } else {
-                                    Event.findOne({_id:eventinstance.event})
-                                        .exec(function(err,event){
-                                            if (err) {
-                                                res.render('Could not find event!', {status: 500});
-                                            } else {
+                console.log('Trying to find message');
 
-                                                Player.findOne({_id:message.player})
-                                                    .exec(function(err,player){
-                                                        if (err) {
-                                                            res.render('Could not find player!', {status: 500});
-                                                        } else {
-                                                            //This is where you send the message!
-                                                            console.log('Trying to find message!!!!!!');
-                                                            text = event.message;
-                                                            phonenumber = '00353'+player.phonenumber;
 
-                                                            //Send Message!
-                                                            request = require('request-json');
-                                                            console.log(config.smsGateway+'sendsms?phone='+phonenumber+'&text='+encodeURIComponent(text)+'&password=pass');
-                                                            var clientforsendingsms = request.newClient(config.smsGateway);
-                                                            //TODO: need error checking here
-                                                            clientforsendingsms.post('sendsms?phone='+phonenumber+'&text='+encodeURIComponent(text)+'&password=pass');
-                                                            console.log('Messsage was sent!!!!!');
-                                                            //Mesage has been sent
-                                                            message.status = 'Sent';
-                                                            message.save();
-                                                            eventinstance.save();
-                                                            res.jsonp(1);
+                Message.findOne({_id:messageid})
+                    .exec(function(err,message){
+                        if (err) {
+                            res.render('Could not find message!', {status: 500});
+                        } else {
+                            Eventinstance.findOne({_id:message.eventinstance})
+                                .exec(function(err,eventinstance){
+                                    if (err) {
+                                        res.render('Could not find eventinstance!', {status: 500});
+                                    } else {
+                                        Event.findOne({_id:eventinstance.event})
+                                            .exec(function(err,event){
+                                                if (err) {
+                                                    res.render('Could not find event!', {status: 500});
+                                                } else {
 
-                                                        }
-                                                    })
-                                            }
-                                        })
+                                                    Player.findOne({_id:message.player})
+                                                        .exec(function(err,player){
+                                                            if (err) {
+                                                                res.render('Could not find player!', {status: 500});
+                                                            } else {
+                                                                //This is where you send the message!
+                                                                console.log('Trying to find message!!!!!!');
+                                                                text = event.message;
+                                                                phonenumber = '00353'+player.phonenumber;
 
-                                }
-                            })
-                    }
-                })
+                                                                //Send Message!
+                                                                request = require('request-json');
+                                                                console.log(config.smsGateway+'sendsms?phone='+phonenumber+'&text='+encodeURIComponent(text)+'&password=pass');
+                                                                var clientforsendingsms = request.newClient(config.smsGateway);
+                                                                //TODO: need error checking here
+                                                                clientforsendingsms.post('sendsms?phone='+phonenumber+'&text='+encodeURIComponent(text)+'&password=pass');
+                                                                console.log('Messsage was sent!!!!!');
+                                                                //Mesage has been sent
+                                                                message.status = 'Sent';
+                                                                message.save();
+                                                                eventinstance.save();
+                                                                res.jsonp(1);
 
+                                                            }
+                                                        })
+                                                }
+                                            })
+
+                                    }
+                                })
+                        }
+                    })
+            }
 
         }
         case "ownertoplayer":

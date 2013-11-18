@@ -99,6 +99,7 @@
                                 {{selectedEventInstanceObject.currentattend}} of {{selectedEventObject.maxAttendance}} confirmed (A minimum of {{selectedEventObject.maxAttendance}} is required for the event to proceed).
                             </div>
                         </div>
+
                     </tab>
                     <tab>
                         <tab-heading>
@@ -119,7 +120,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Player name</th>
-                                                <th>Message Id</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
                                             </thead>
@@ -127,9 +128,9 @@
                                             <tr data-ng-repeat="message in messages | filter:{eventinstance:selectedInstanceEvent}">
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{message.player.firstname}}&nbsp;{{message.player.lastname}}</td>
-                                                <td><a href="#!/messages/{{ message._id }}">{{message._id}}</a></td>
+                                                <td><a href="#!/messages/{{ message._id }}">{{message.status}}</a></td>
                                                 <td>
-                                                    (<a href="#!/messages/{{ message._id }}/edit">Edit</a>)
+                                                    (<a href="#!/messages/{{ message._id }}/Confirm">Confirm</a>)
                                                     (<a href="" ng-click="remove(message)" >Remove</a>)
                                                 </td>
                                             </tr>

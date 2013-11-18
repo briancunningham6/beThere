@@ -15,4 +15,10 @@ var MessageSchema = new Schema({
     owner: {type: Schema.ObjectId, ref: 'User'}
 });
 
+MessageSchema.statics = {
+    load: function (id, cb) {
+        this.findOne({ _id : id }).populate('owner').exec(cb);
+    }
+};
+
 mongoose.model('Message',MessageSchema);

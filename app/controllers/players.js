@@ -7,6 +7,7 @@ exports.create = function (req, res) {
     var player = new Player(req.body)
     player.owner = req.user
     player.save()
+    winston.log('info', 'Player created!');
     res.jsonp(player)
 }
 
@@ -30,6 +31,7 @@ exports.all = function(req, res){
         if (err) {
             res.render('error', {status: 500});
         } else {
+            winston.log('info', 'Returning all players!');
             res.jsonp(players);
         }
     });
@@ -40,6 +42,7 @@ exports.update = function(req, res){
     player = _.extend(player, req.body)
 
     player.save(function(err) {
+        winston.log('info', 'Player updated!');
         res.jsonp(player)
     })
 }
@@ -48,8 +51,10 @@ exports.destroy = function(req, res){
     var player = req.player
     player.remove(function(err){
         if (err) {
+            winston.log('error', 'Player could not be deleted %j !', error);
             res.render('error', {status: 500});
         } else {
+            winston.log('info', 'Player deleted!');
             res.jsonp(1);
         }
     })

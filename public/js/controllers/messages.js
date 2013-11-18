@@ -14,7 +14,7 @@ window.angular.module('ngff.controllers.messages', [])
         })
 
 
-    $scope.populateTeams = function(query) {
+        $scope.populateTeams = function(query) {
             FantasyTeams.query(query, function (teams) {
                 $scope.teams = teams;
             });

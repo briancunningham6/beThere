@@ -22,6 +22,7 @@ module.exports = {
     HTTPDomain: 'http://localhost',
     HTTPport : 3000,
     HTTPSport : 8000,
+    MessageServerPort : 3001,
     smsGateway: 'http://89.101.92.239:9090/',
     app: {
       name: 'beThere - Development'
@@ -48,6 +49,7 @@ module.exports = {
     notifier: notifier,
     HTTPport : 80,
     HTTPSport : 443,
+    MessageServerPort : 3001,
     app: {
       name: 'beThere - Production'
     },
