@@ -71,6 +71,7 @@ module.exports = function (app, passport, auth) {
     app.post('/messages', auth.requiresLogin, messages.create)
     app.get('/messages/:messageId', messages.show)
     app.put('/messages/:messageId', auth.requiresLogin, messages.update)
+    app.put('/messages/confirm/:messageId', auth.requiresLogin, messages.confirm)
     app.del('/messages/:messageId', auth.requiresLogin, messages.destroy)
 
     app.post('/messages/sendSMS', messages.sendSMS)

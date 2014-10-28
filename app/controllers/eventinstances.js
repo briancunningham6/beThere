@@ -2,6 +2,8 @@ var mongoose = require('mongoose')
   , async = require('async')
   , Eventinstance = mongoose.model('Eventinstance')
   , _ = require('underscore')
+  , winston = require('winston');
+require('winston-mongodb').MongoDB;
 
 
 exports.create = function (req, res) {

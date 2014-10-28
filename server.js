@@ -35,13 +35,13 @@ var db = mongoose.connect(config.db)
 
 
 //Setup database logging
-var winston = require('winston');
-require('winston-mongodb').MongoDB;
+//var winston = require('winston');
+//require('winston-mongodb').MongoDB;
 var options = new Object();
 options.db = 'beThere-dev';
-winston.add(winston.transports.MongoDB, options);
+//winston.add(winston.transports.MongoDB, options);
 
-winston.log('info', 'Application has started!');
+//winston.log('info', 'Application has started!');
 
 // Bootstrap models
 var models_path = __dirname + '/app/models'

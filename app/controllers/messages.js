@@ -22,7 +22,6 @@ exports.show = function(req, res){
 
 exports.message = function(req, res, next, id){
     var Message = mongoose.model('Message')
-debugger;
     Message.load(id, function (err, message) {
         if (err) return next(err)
         if (!message) return next(new Error('Failed to load message ' + id))
@@ -44,13 +43,22 @@ exports.all = function(req, res){
 
 exports.update = function(req, res){
     var message = req.message
-    message = _.extend(message, req.body)
+    message.status = "Confirmed by user";
+    //message = _.extend(message, req.body)
 
     message.save(function(err) {
         res.jsonp(message)
     })
 }
 
+exports.confirm = function(req, res){
+    var message = req.message
+    message = _.extend(message, req.body)
+
+    message.save(function(err) {
+        res.jsonp(message)
+    })
+}
 
 exports.receiveSMS = function(req, res){
     debugger;

@@ -20,27 +20,6 @@ window.angular.module('ngff.controllers.messages', [])
             });
         };
 
-
-        $scope.days = [
-            {dayId : 0, dayName : 'Monday' },
-            {dayId : 1, dayName : 'Tuesday' },
-            {dayId : 2, dayName : 'Wednesday' },
-            {dayId : 3, dayName : 'Thursday' },
-            {dayId : 4, dayName : 'Friday' },
-            {dayId : 5, dayName : 'Saturday' },
-            {dayId : 6, dayName : 'Sunday' }
-        ];
-
-        $scope.times = [
-            {timeId : 0, timeName : '00:00' },
-            {timeId : 1, timeName : '00:15' },
-            {timeId : 2, timeName : '00:30' },
-            {timeId : 3, timeName : '00:45' },
-            {timeId : 4, timeName : '01:00' },
-            {timeId : 5, timeName : '01:15' },
-            {timeId : 6, timeName : '01:30' }
-        ];
-
       $scope.create = function () {
         var message = new Messages({
           name: this.message.name,
@@ -80,6 +59,15 @@ window.angular.module('ngff.controllers.messages', [])
     	    $location.path('messages/' + message._id);
     	  });
     	};
+
+        //Manually confirm the attendance of the player by a user
+        $scope.confirm = function () {
+            var message = $scope.message;
+            message.$update(function () {
+                $location.path('messages/confirm' + message._id);
+            });
+        };
+
 
     	$scope.remove = function (message) {
     	  message.$remove();

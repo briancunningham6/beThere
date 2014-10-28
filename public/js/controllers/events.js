@@ -116,6 +116,7 @@ window.angular.module('ngff.controllers.events', [])
     	  });
     	};
 
+
     	$scope.remove = function (event) {
     	  event.$remove();
     	  for (var i in $scope.events) {

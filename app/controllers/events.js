@@ -4,7 +4,8 @@ var mongoose = require('mongoose')
   , Event = mongoose.model('Event')
   , Message = mongoose.model('Message')
   , Player = mongoose.model('Player')
-  , _ = require('underscore')
+  , _ = require('underscore');
+
 
 
 // datepart: 'y', 'm', 'w', 'd', 'h', 'n', 's'
@@ -68,13 +69,13 @@ createRecurringInstances = function(event){
                         'owner':event.owner
                     });
                     message.save()
-                    winston.log('info', 'Event instance saved %j', message._id);
+                    //winston.log('info', 'Event instance saved %j', message._id);
                     //Push message onto the eventinstance
                     //eventinstance.messages.push(message);
                     //eventinstance.save();
                 }
                 event.eventinstances.push(eventinstance);
-                winston.log('info', 'Pushing event instances onto Event list!');
+                //winston.log('info', 'Pushing event instances onto Event list!');
                 event.save();
             });
         });
@@ -90,14 +91,16 @@ exports.create = function (req, res) {
     event.save(function(err, event) {
       if(err){
           error = err;
+          //Validation error
+          res.jsonp(error);
       }
       else{
-          winston.log('info', 'Event created!');
+          //winston.log('info', 'Event created!');
           eventId = event.id;
           console.log(eventId);
 
           // Create eventinstance for the given dates
-          winston.log('info', 'Creating Event instances for previously created event!');
+          //winston.log('info', 'Creating Event instances for previously created event!');
           createRecurringInstances(event);
       }
     });
@@ -105,7 +108,6 @@ exports.create = function (req, res) {
       res.jsonp(event)
   }
   else{
-      winston.log('error', 'Error creating event %j', error);
       res.jsonp(error)
   }
 }
@@ -154,10 +156,10 @@ exports.update = function(req, res){
   event = _.extend(event, req.body)
   event.save(function(err) {
       if (err) {
-          winston.log('error', 'Error updating event!');
+          //winston.log('error', 'Error updating event!');
           res.render('error', {status: 500});
       } else {
-          winston.log('info', 'Event updated!');
+          //winston.log('info', 'Event updated!');
           Message.find({'event':event._id}).remove();
           Eventinstance.find({'event':event._id}).remove();
           res.jsonp(1);
@@ -184,7 +186,7 @@ exports.destroy = function(req, res){
                 createRecurringInstances(event);
           }
       })
-      winston.log('info', 'Event and eventinstances deleted!');
+      //winston.log('info', 'Event and eventinstances deleted!');
       res.jsonp(1);
     }
   })
