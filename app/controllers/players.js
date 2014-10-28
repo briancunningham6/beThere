@@ -2,7 +2,6 @@ var mongoose = require('mongoose')
     , async = require('async')
     , Player = mongoose.model('Player')
     , _ = require('underscore');
-require('winston-mongodb').MongoDB;
 
 exports.create = function (req, res) {
     var player = new Player(req.body)
